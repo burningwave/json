@@ -1,4 +1,4 @@
-package org.burningwave.core;
+package org.burningwave.json;
 
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectClasses;
