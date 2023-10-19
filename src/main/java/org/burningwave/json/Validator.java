@@ -43,8 +43,6 @@ import java.util.stream.Stream;
 import org.burningwave.Strings;
 import org.burningwave.Throwables;
 import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
@@ -62,14 +60,16 @@ public class Validator {
 	private static final String DEFAULT_LEAF_CHECKS_ID;
 	private static final String DEFAULT_OBJECT_CHECKS_ID;
 	private static final String DEFAULT_INDEXED_OBJECT_CHECKS_ID;
+	protected final static Object logger;
 
 	static {
 		DEFAULT_LEAF_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultLeafChecks");
 		DEFAULT_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultObjectChecks");
 		DEFAULT_INDEXED_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultIndexedObjectChecks");
+		logger = SLF4J.tryToInitLogger(Validator.class);
 	}
 
-	protected final Logger logger;
+
 
 	protected final ObjectMapper objectMapper;
 	protected final SchemaHolder schemaHolder;
@@ -100,7 +100,6 @@ public class Validator {
 		this.objectMapper = objectMapper;
 		this.schemaHolder = schemaHolder;
 		this.exceptionBuilder = exceptionBuilder;
-		this.logger = LoggerFactory.getLogger(getClass());
 		this.leafChecks = new LinkedHashMap<>();
 		this.leafChecks.put(
 			DEFAULT_LEAF_CHECKS_ID,
@@ -451,8 +450,8 @@ public class Validator {
 			if (pathValidationContext.validationContext.validationConfig.checkFilter.apply(check).test(pathValidationContext) &&
 				check.predicate.test(pathValidationContext)
 			) {
-				if (executedChecks++ == 0 && pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()) {
-					logger.debug(
+				if (executedChecks++ == 0 && logger != null && pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()) {
+					((org.slf4j.Logger)logger).debug(
 						"Starting validation of path {} with value {}",
 						pathValidationContext.path,
 						pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)//NOSONAR
@@ -463,20 +462,20 @@ public class Validator {
 		}
 		if (executedChecks > 0) {
 			if (pathValidationContext.validationContext.exceptions == null || pathValidationContext.validationContext.exceptions.isEmpty()) {
-				if (pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()) {
-					logger.debug(
+				if (logger != null && pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()) {
+					((org.slf4j.Logger)logger).debug(
 						"Validation of path {} successfully completed",
 						pathValidationContext.path
 					);
 				}
-			} else if (pathValidationContext.validationContext.validationConfig.isErrorLoggingEnabled()) {
-				logger.debug(
+			} else if (logger != null && pathValidationContext.validationContext.validationConfig.isErrorLoggingEnabled()) {
+				((org.slf4j.Logger)logger).debug(
 					"Validation of path {} completed with errors",
 					pathValidationContext.path
 				);
 			}
-		} else if (pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()){
-			logger.debug(
+		} else if (logger != null && pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()){
+			((org.slf4j.Logger)logger).debug(
 				"No custom check executed for path {} with value {}",
 				pathValidationContext.path,
 				pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)//NOSONAR
@@ -516,8 +515,8 @@ public class Validator {
 	protected void logSkippingValidation(
 		Path.ValidationContext<?, ?> pathValidationContext
 	) {
-		if (pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()){
-			logger.debug(
+		if (logger != null && pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()){
+			((org.slf4j.Logger)logger).debug(
 				"Skipping validation of path {} with value {}",
 				pathValidationContext.path,
 				pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)//NOSONAR

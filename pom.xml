@@ -31,9 +31,9 @@
 
 	<groupId>org.burningwave</groupId>
 	<artifactId>json</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
+	
 	<name>Burningwave JSON</name>
 	<description>
 		
@@ -111,6 +111,7 @@
 		<maven-scm-provider-gitexe.version>1.9.5</maven-scm-provider-gitexe.version>
 		<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.12</nexus-staging-maven-plugin.version>
+		<osgi.jackson.version>2.0.0</osgi.jackson.version>
 		<slf4j.version>2.0.9</slf4j.version>
 	</properties>
 
@@ -348,7 +349,7 @@
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.8))"</Require-Capability>
-						<Import-Package>com.fasterxml.jackson.core;version="${jackson.version}",com.fasterxml.jackson.core.type;version="${jackson.version}",com.fasterxml.jackson.databind;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.factories;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.types;version="${jackson.version}",org.burningwave;resolution:=optional,org.burningwave.reflection;resolution:=optional;version="${burningwave-reflection.version}",org.json;version="${json.version}",org.slf4j;resolution:=optional;version="1.7.0"</Import-Package>
+						<Import-Package>com.fasterxml.jackson.core;version="${osgi.jackson.version}",com.fasterxml.jackson.core.type;version="${osgi.jackson.version}",com.fasterxml.jackson.databind;version="${osgi.jackson.version}",com.fasterxml.jackson.module.jsonSchema;version="${osgi.jackson.version}",com.fasterxml.jackson.module.jsonSchema.factories;version="${osgi.jackson.version}",com.fasterxml.jackson.module.jsonSchema.types;version="${osgi.jackson.version}",org.burningwave;resolution:=optional,org.burningwave.reflection;resolution:=optional;version="${burningwave-reflection.version}",org.json;version="${json.version}",org.slf4j;resolution:=optional;version="1.7.0"</Import-Package>
 						<Multi-Release>true</Multi-Release>
     					<_dsannotations>*</_dsannotations><!-- Enable processing of OSGI DS component annotations -->
 						<_metatypeannotations>*</_metatypeannotations><!-- Enable processing of OSGI metatype annotations -->

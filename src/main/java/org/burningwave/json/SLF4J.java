@@ -1,3 +1,5 @@
+package org.burningwave.json;
+
 /*
  * This file is part of Burningwave JSON.
  *
@@ -26,16 +28,14 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module org.burningwave.json {
+public class SLF4J {
 
-	requires com.fasterxml.jackson.core;
-	requires transitive com.fasterxml.jackson.databind;
-	requires com.fasterxml.jackson.module.jsonSchema;
-	requires org.burningwave;
-	requires static org.burningwave.reflection;
-	requires org.json;
-	requires static org.slf4j;
-
-	exports org.burningwave.json;
+	static <L> L tryToInitLogger(Class<?> cls) {
+		try {
+			return (L)org.slf4j.LoggerFactory.getLogger(cls);
+		} catch (Throwable exc) {
+			return null;
+		}
+	}
 
 }

@@ -36,8 +36,6 @@ import java.util.function.Function;
 
 import org.burningwave.Strings;
 import org.burningwave.Throwables;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.types.ArraySchema;
@@ -49,10 +47,10 @@ import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 
 public class ValidationContext {
 	static final String MOCK_SCHEMA_LABEL;
-	protected static final Logger logger;
+	protected static final Object logger;
 
 	static {
-		logger = LoggerFactory.getLogger(ValidationContext.class);
+		logger = SLF4J.tryToInitLogger(ValidationContext.class);
 		MOCK_SCHEMA_LABEL = Strings.INSTANCE.toStringWithRandomUUIDSuffix("schemaMock");
 	}
 
@@ -80,8 +78,8 @@ public class ValidationContext {
 		this.exceptionAdder = validationConfig.validateAll ?
 			pathValidationContext -> exceptions::add :
 			pathValidationContext -> exc -> {
-				if (validationConfig.isErrorLoggingEnabled()) {
-					logger.debug(
+				if (logger != null && validationConfig.isErrorLoggingEnabled()) {
+					((org.slf4j.Logger)logger).debug(
 						"Validation of path {} failed",
 						pathValidationContext.path
 					);
