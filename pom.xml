@@ -90,11 +90,9 @@
 		<repository.url>https://burningwave@github.com/burningwave/core.git</repository.url>
 
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
-		<logback.version>1.4.11</logback.version>
 		<jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
-		<jackson.version>2.15.3</jackson.version>
-		<jakarta.validation.version>2.0.2</jakarta.validation.version>
-		<json.version>20231013</json.version>
+		<jackson.version>2.0.0</jackson.version>
+		<json.version>20131018</json.version>
 		<junit-jupiter.version>5.9.1</junit-jupiter.version>
 		<junit.version>1.9.1</junit.version>
 		<burningwave-reflection.version>4.1.0</burningwave-reflection.version>
@@ -111,8 +109,7 @@
 		<maven-scm-provider-gitexe.version>1.9.5</maven-scm-provider-gitexe.version>
 		<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.12</nexus-staging-maven-plugin.version>
-		<osgi.jackson.version>2.0.0</osgi.jackson.version>
-		<slf4j.version>2.0.9</slf4j.version>
+		<slf4j.version>1.7.0</slf4j.version>
 	</properties>
 
 	<issueManagement>
@@ -143,7 +140,7 @@
 		<dependency>
 			<groupId>org.burningwave</groupId>
 			<artifactId>reflection</artifactId>
-			<version>${burningwave-reflection.version}</version>
+			<version>[${burningwave-reflection.version},)</version>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
@@ -151,61 +148,61 @@
 		<dependency>
 		 	<groupId>com.fasterxml.jackson.core</groupId>
 		 	<artifactId>jackson-core</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 	 	
 	 	<dependency>
 		 	<groupId>com.fasterxml.jackson.core</groupId>
 		 	<artifactId>jackson-annotations</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 	 	
 	 	<dependency>
 		 	<groupId>com.fasterxml.jackson.core</groupId>
 		 	<artifactId>jackson-databind</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 
 	 	<dependency>
 		 	<groupId>com.fasterxml.jackson.dataformat</groupId>
 		 	<artifactId>jackson-dataformat-yaml</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 	 	
 	 	<dependency>
 		 	<groupId>com.fasterxml.jackson.datatype</groupId>
 		 	<artifactId>jackson-datatype-jdk8</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 	 	
 	 	<dependency>
 		 	<groupId>com.fasterxml.jackson.datatype</groupId>
 		 	<artifactId>jackson-datatype-jsr310</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 	 	
 	 	<dependency>
 		 	<groupId>com.fasterxml.jackson.module</groupId>
 		 	<artifactId>jackson-module-jsonSchema</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 	 	
 	 	<dependency>
 		 	<groupId>com.fasterxml.jackson.module</groupId>
 		 	<artifactId>jackson-module-parameter-names</artifactId>
-		 	<version>${jackson.version}</version>
+		 	<version>[${jackson.version},)</version>
 	 	</dependency>
 	 	
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
-		    <version>${json.version}</version>
+		    <version>[${json.version},)</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<version>[${slf4j.version},)</version>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
@@ -213,23 +210,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${logback.version}</version>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
+			<version>[${slf4j.version},)</version>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
@@ -259,13 +240,6 @@
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
 			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-			<version>${jakarta.validation.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -349,7 +323,7 @@
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.8))"</Require-Capability>
-						<Import-Package>com.fasterxml.jackson.core;version="${osgi.jackson.version}",com.fasterxml.jackson.core.type;version="${osgi.jackson.version}",com.fasterxml.jackson.databind;version="${osgi.jackson.version}",com.fasterxml.jackson.module.jsonSchema;version="${osgi.jackson.version}",com.fasterxml.jackson.module.jsonSchema.factories;version="${osgi.jackson.version}",com.fasterxml.jackson.module.jsonSchema.types;version="${osgi.jackson.version}",org.burningwave;resolution:=optional,org.burningwave.reflection;resolution:=optional;version="${burningwave-reflection.version}",org.json;version="${json.version}",org.slf4j;resolution:=optional;version="1.7.0"</Import-Package>
+						<Import-Package>com.fasterxml.jackson.core;version="${jackson.version}",com.fasterxml.jackson.core.type;version="${jackson.version}",com.fasterxml.jackson.databind;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.factories;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.types;version="${jackson.version}",org.burningwave;resolution:=optional,org.burningwave.reflection;resolution:=optional;version="${burningwave-reflection.version}",org.json;version="${json.version}",org.slf4j;resolution:=optional;version="${slf4j.version}"</Import-Package>
 						<Multi-Release>true</Multi-Release>
     					<_dsannotations>*</_dsannotations><!-- Enable processing of OSGI DS component annotations -->
 						<_metatypeannotations>*</_metatypeannotations><!-- Enable processing of OSGI metatype annotations -->
