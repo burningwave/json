@@ -1,15 +1,15 @@
 /*
- * This file is part of Burningwave Core.
+ * This file is part of Burningwave JSON.
  *
  * Author: Roberto Gentili
  *
- * Hosted at: https://github.com/burningwave/core
+ * Hosted at: https://github.com/burningwave/JSON
  *
  * --
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019-2022 Roberto Gentili
+ * Copyright (c) 2023 Roberto Gentili
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without
@@ -29,7 +29,7 @@
 module org.burningwave.json {
 
 	requires com.fasterxml.jackson.core;
-	requires com.fasterxml.jackson.databind;
+	requires transitive com.fasterxml.jackson.databind;
 	requires com.fasterxml.jackson.module.jsonSchema;
 	requires static org.burningwave.reflection;
 	requires org.json;

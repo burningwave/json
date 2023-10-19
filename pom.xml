@@ -3,7 +3,7 @@
 	                                                                                                            
 	Author: Roberto Gentili                                                                                     
 	                                                                                                            
-	Hosted at: https://github.com/burningwave/json                                                              
+	Hosted at: https://github.com/burningwave/JSON                                                              
 	                                                                                                            
 	- -                                                                                                          
 	                                                                                                            
@@ -38,12 +38,12 @@
 	<description>
 		
 	</description>
-	<url>https://burningwave.github.io/json/</url>
+	<url>https://burningwave.github.io/JSON/</url>
 
 	<licenses>
 		<license>
 			<name>MIT License</name>
-			<url>https://github.com/burningwave/json/blob/master/LICENSE</url>
+			<url>https://github.com/burningwave/JSON/blob/master/LICENSE</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -90,13 +90,15 @@
 		<repository.url>https://burningwave@github.com/burningwave/core.git</repository.url>
 
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
-		<logback.version>1.2.11</logback.version>
+		<logback.version>1.4.11</logback.version>
 		<jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
-		<jackson.version>2.14.0-rc3</jackson.version>
+		<jackson.version>2.15.3</jackson.version>
 		<jakarta.validation.version>2.0.2</jakarta.validation.version>
+		<json.version>20231013</json.version>
 		<junit-jupiter.version>5.9.1</junit-jupiter.version>
 		<junit.version>1.9.1</junit.version>
-		<burningwave-reflection.version>4.0.0</burningwave-reflection.version>
+		<burningwave-reflection.version>4.1.0</burningwave-reflection.version>
+		<maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
 		<maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
@@ -114,7 +116,7 @@
 
 	<issueManagement>
 		<system>github.com</system>
-		<url>https://github.com/burningwave/json/issues</url>
+		<url>https://github.com/burningwave/JSON/issues</url>
 	</issueManagement>
 
 	<distributionManagement>
@@ -131,7 +133,7 @@
 	<scm>
 		<connection>scm:git:${repository.url}</connection>
 		<developerConnection>scm:git:${repository.url}</developerConnection>
-		<url>https://github.com/burningwave/core</url>
+		<url>https://github.com/burningwave/JSON</url>
 		<tag>HEAD</tag>
 	</scm>
 	
@@ -196,7 +198,7 @@
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
-		    <version>20220924</version>
+		    <version>${json.version}</version>
 		</dependency>
 
 		<dependency>
@@ -317,7 +319,43 @@
 					<useModulePath>false</useModulePath>
 				</configuration>
 			</plugin>
-
+			
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>generate-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+				<configuration>
+					<manifestLocation>${project.build.outputDirectory}/META-INF/</manifestLocation>
+					<exportScr>true</exportScr>
+					<instructions>					
+						<built-by>${organization.name}</built-by>
+						<Bundle-Category>Utilities</Bundle-Category>
+						<Bundle-License>https://github.com/burningwave/JSON/blob/master/LICENSE</Bundle-License>
+						<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+						<Bundle-Name>JSON</Bundle-Name>
+						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Vendor>${organization.name}</Bundle-Vendor>
+						<Bundle-Description>${project.description}</Bundle-Description>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.8))"</Require-Capability>
+						<Import-Package>com.fasterxml.jackson.core;version="${jackson.version}",com.fasterxml.jackson.core.type;version="${jackson.version}",com.fasterxml.jackson.databind;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.factories;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.types;version="${jackson.version}",org.burningwave;resolution:=optional,org.burningwave.reflection;resolution:=optional;version="${burningwave-reflection.version}",org.json;version="${json.version}",org.slf4j;resolution:=optional;version="1.7.0"</Import-Package>
+						<Multi-Release>true</Multi-Release>
+    					<_dsannotations>*</_dsannotations><!-- Enable processing of OSGI DS component annotations -->
+						<_metatypeannotations>*</_metatypeannotations><!-- Enable processing of OSGI metatype annotations -->
+					</instructions>
+				</configuration>
+		 	</plugin>
+		 	
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin.version}</version>
@@ -328,28 +366,11 @@
 					</excludes>
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-						<manifestEntries>
-							<built-by>Burningwave</built-by>
-							<Bundle-Category>Framework</Bundle-Category>
-							<Bundle-License>https://github.com/burningwave/json/blob/master/LICENSE</Bundle-License>
-							<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-							<Bundle-Name>JSON</Bundle-Name>
-							<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-							<Bundle-Vendor>Burningwave</Bundle-Vendor>
-							<Bundle-Description>${project.description}</Bundle-Description>
-							<Bundle-Version>${project.version}</Bundle-Version>
-							<Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.8))"</Require-Capability>
-							<Import-Package>javax.tools,io.github.toolfactory.jvm;version="9.4.4",org.burningwave.jvm;version="8.14.2";resolution:=optional,io.github.toolfactory.jvm.util,org.slf4j;version="1.7.0";resolution:=optional</Import-Package>
-							<Export-Package>org.burningwave.core;uses:="org.burningwave.core.classes,org.burningwave.core.concurrent,org.burningwave.core.function,org.burningwave.core.io,org.burningwave.core.iterable";version="12.45.3",org.burningwave.core.assembler;uses:="io.github.toolfactory.jvm,org.burningwave.core,org.burningwave.core.classes,org.burningwave.core.concurrent,org.burningwave.core.io,org.burningwave.core.iterable,org.burningwave.core.jvm";version="12.45.3",org.burningwave.core.classes;uses:="io.github.toolfactory.jvm.util,org.burningwave.core,org.burningwave.core.concurrent,org.burningwave.core.function,org.burningwave.core.io,org.burningwave.core.iterable";version="12.45.3",org.burningwave.core.concurrent;uses:="org.burningwave.core,org.burningwave.core.function";version="12.45.3",org.burningwave.core.function;version="12.45.3",org.burningwave.core.io;uses:="org.burningwave.core,org.burningwave.core.classes";version="12.45.3",org.burningwave.core.iterable;uses:="org.burningwave.core,org.burningwave.core.concurrent,org.burningwave.core.function";version="12.45.3",org.burningwave.core.jvm;uses:="org.burningwave.core,org.burningwave.core.io,org.burningwave.core.iterable";version="12.45.3"</Export-Package>
-							<Multi-Release>true</Multi-Release>
-						</manifestEntries>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>
+			
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>${maven-deploy-plugin.version}</version>
