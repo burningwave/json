@@ -50,7 +50,7 @@ public class ValidationContext {
 	protected static final Object logger;
 
 	static {
-		logger = SLF4J.tryToInitLogger(ValidationContext.class);
+		logger = SLF4J.INSTANCE.tryToInitLogger(ValidationContext.class);
 		MOCK_SCHEMA_LABEL = Strings.INSTANCE.toStringWithRandomUUIDSuffix("schemaMock");
 	}
 

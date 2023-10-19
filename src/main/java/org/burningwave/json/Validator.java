@@ -66,7 +66,7 @@ public class Validator {
 		DEFAULT_LEAF_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultLeafChecks");
 		DEFAULT_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultObjectChecks");
 		DEFAULT_INDEXED_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultIndexedObjectChecks");
-		logger = SLF4J.tryToInitLogger(Validator.class);
+		logger = SLF4J.INSTANCE.tryToInitLogger(Validator.class);
 	}
 
 

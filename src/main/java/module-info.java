@@ -30,7 +30,7 @@ module org.burningwave.json {
 
 	requires com.fasterxml.jackson.core;
 	requires transitive com.fasterxml.jackson.databind;
-	requires com.fasterxml.jackson.module.jsonSchema;
+	requires transitive com.fasterxml.jackson.module.jsonSchema;
 	requires org.burningwave;
 	requires static org.burningwave.reflection;
 	requires org.json;

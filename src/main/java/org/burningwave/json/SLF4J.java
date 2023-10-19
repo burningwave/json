@@ -28,9 +28,17 @@ package org.burningwave.json;
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-public class SLF4J {
+class SLF4J {
 
-	static <L> L tryToInitLogger(Class<?> cls) {
+	public static final SLF4J INSTANCE;
+
+	static {
+		INSTANCE = new SLF4J();
+	}
+
+	private SLF4J() {}
+
+	<L> L tryToInitLogger(Class<?> cls) {
 		try {
 			return (L)org.slf4j.LoggerFactory.getLogger(cls);
 		} catch (Throwable exc) {
