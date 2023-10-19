@@ -36,7 +36,7 @@
 	
 	<name>Burningwave JSON</name>
 	<description>
-		
+		A JSON handling library
 	</description>
 	<url>https://burningwave.github.io/JSON/</url>
 
@@ -135,6 +135,8 @@
 		<tag>HEAD</tag>
 	</scm>
 	
+	<dependencyManagement>
+		
 	<dependencies>
 		
 		<dependency>
@@ -203,6 +205,73 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>[${slf4j.version},)</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>[${slf4j.version},)</version>
+		</dependency>
+
+	</dependencies>
+		
+	</dependencyManagement>
+	
+	<dependencies>
+		
+		<dependency>
+			<groupId>org.burningwave</groupId>
+			<artifactId>reflection</artifactId>
+		</dependency>
+		
+		<dependency>
+		 	<groupId>com.fasterxml.jackson.core</groupId>
+		 	<artifactId>jackson-core</artifactId>
+	 	</dependency>
+	 	
+	 	<dependency>
+		 	<groupId>com.fasterxml.jackson.core</groupId>
+		 	<artifactId>jackson-annotations</artifactId>
+	 	</dependency>
+	 	
+	 	<dependency>
+		 	<groupId>com.fasterxml.jackson.core</groupId>
+		 	<artifactId>jackson-databind</artifactId>
+	 	</dependency>
+
+	 	<dependency>
+		 	<groupId>com.fasterxml.jackson.dataformat</groupId>
+		 	<artifactId>jackson-dataformat-yaml</artifactId>
+	 	</dependency>
+	 	
+	 	<dependency>
+		 	<groupId>com.fasterxml.jackson.datatype</groupId>
+		 	<artifactId>jackson-datatype-jdk8</artifactId>
+	 	</dependency>
+	 	
+	 	<dependency>
+		 	<groupId>com.fasterxml.jackson.datatype</groupId>
+		 	<artifactId>jackson-datatype-jsr310</artifactId>
+	 	</dependency>
+	 	
+	 	<dependency>
+		 	<groupId>com.fasterxml.jackson.module</groupId>
+		 	<artifactId>jackson-module-jsonSchema</artifactId>
+	 	</dependency>
+	 	
+	 	<dependency>
+		 	<groupId>com.fasterxml.jackson.module</groupId>
+		 	<artifactId>jackson-module-parameter-names</artifactId>
+	 	</dependency>
+	 	
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
@@ -210,7 +279,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
-			<version>[${slf4j.version},)</version>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
