@@ -190,6 +190,10 @@ public class Validator {
 		}
 	}
 
+	public <I> Collection<Throwable> validate(Object jsonObject) {
+		return validate(Validation.Config.forJsonObject(null));
+	}
+
 	public <I> Collection<Throwable> validate(
 		Validation.Config<I> config
 	) {
