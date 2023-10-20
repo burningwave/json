@@ -206,7 +206,6 @@ public class Validator {
 			ObjectHandler objectHandler;
 			if (jsonObject instanceof ObjectHandler) {
 				objectHandler = (ObjectHandler)jsonObject;
-				jsonObject = objectHandler.getRawValue();
 			} else {
 				objectHandler = ObjectHandler.create(objectMapper, jsonObject);
 			}
