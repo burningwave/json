@@ -38,12 +38,12 @@
 	<description>
 		A JSON handling library
 	</description>
-	<url>https://burningwave.github.io/JSON/</url>
+	<url>https://burningwave.github.io/json/</url>
 
 	<licenses>
 		<license>
 			<name>MIT License</name>
-			<url>https://github.com/burningwave/JSON/blob/master/LICENSE</url>
+			<url>https://github.com/burningwave/json/blob/master/LICENSE</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -114,7 +114,7 @@
 
 	<issueManagement>
 		<system>github.com</system>
-		<url>https://github.com/burningwave/JSON/issues</url>
+		<url>https://github.com/burningwave/json/issues</url>
 	</issueManagement>
 
 	<distributionManagement>
@@ -131,7 +131,7 @@
 	<scm>
 		<connection>scm:git:${repository.url}</connection>
 		<developerConnection>scm:git:${repository.url}</developerConnection>
-		<url>https://github.com/burningwave/JSON</url>
+		<url>https://github.com/burningwave/json</url>
 		<tag>HEAD</tag>
 	</scm>
 	
@@ -380,7 +380,7 @@
 					<instructions>					
 						<built-by>${organization.name}</built-by>
 						<Bundle-Category>Utilities</Bundle-Category>
-						<Bundle-License>https://github.com/burningwave/JSON/blob/master/LICENSE</Bundle-License>
+						<Bundle-License>https://github.com/burningwave/json/blob/master/LICENSE</Bundle-License>
 						<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
 						<Bundle-Name>JSON</Bundle-Name>
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
