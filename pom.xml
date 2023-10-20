@@ -31,7 +31,7 @@
 
 	<groupId>org.burningwave</groupId>
 	<artifactId>json</artifactId>
-	<version>0.5.0-SNAPSHOT</version>
+	<version>0.6.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>Burningwave JSON</name>
@@ -388,7 +388,7 @@
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.8))"</Require-Capability>
-						<Import-Package>com.fasterxml.jackson.core;version="${jackson.version}",com.fasterxml.jackson.core.type;version="${jackson.version}",com.fasterxml.jackson.databind;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.factories;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.types;version="${jackson.version}",org.burningwave;resolution:=optional,org.burningwave.reflection;resolution:=optional;version="${burningwave-reflection.version}",org.json;version="${json.version}",org.slf4j;resolution:=optional;version="${slf4j.version}"</Import-Package>
+						<Import-Package>com.fasterxml.jackson.core;version="${jackson.version}",com.fasterxml.jackson.core.type;version="${jackson.version}",com.fasterxml.jackson.databind;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.factories;version="${jackson.version}",com.fasterxml.jackson.module.jsonSchema.types;version="${jackson.version}",org.burningwave;resolution:=optional;version="0.1.0",org.burningwave.reflection;resolution:=optional;version="${burningwave-reflection.version}",org.json;version="${json.version}",org.slf4j;resolution:=optional;version="${slf4j.version}"</Import-Package>
 						<Multi-Release>true</Multi-Release>
     					<_dsannotations>*</_dsannotations><!-- Enable processing of OSGI DS component annotations -->
 						<_metatypeannotations>*</_metatypeannotations><!-- Enable processing of OSGI metatype annotations -->
