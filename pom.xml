@@ -360,7 +360,6 @@
 					<useModulePath>false</useModulePath>
 				</configuration>
 			</plugin>
-			
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
@@ -395,8 +394,7 @@
 						<_metatypeannotations>*</_metatypeannotations><!-- Enable processing of OSGI metatype annotations -->
 					</instructions>
 				</configuration>
-		 	</plugin>
-		 	
+		 	</plugin> 	
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin.version}</version>
@@ -411,7 +409,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-			
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>${maven-deploy-plugin.version}</version>
@@ -469,7 +466,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -489,7 +485,7 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
 	<reporting>
 		<plugins>
 			<plugin>
