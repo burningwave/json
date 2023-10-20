@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 @SuppressWarnings("unused")
 @RunWith(JUnitPlatform.class)
-//@SelectPackages("org.burningwave.core")
+//@SelectPackages("org.burningwave.json")
 @SelectClasses({
 
 })
