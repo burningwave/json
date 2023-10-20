@@ -59,7 +59,7 @@ public class ObjectHandler  {
 			if ((boolean)Configuration.freezeAndGet().get(Configuration.Key.REFLECTION_ENABLED)) {
 				valueRetriever = buildValueRetriever(org.burningwave.reflection.FieldAccessor.INSTANCE);
 			}
-		} catch (Throwable exc) {//NOSONAR
+		} catch (Throwable exc) {
 
 		} finally {
 			if (valueRetriever == null) {
@@ -73,7 +73,7 @@ public class ObjectHandler  {
 	) {
 		return objectHandler -> {
 			Object value = objectHandler.rootHandler.getValue();
-			for (String pathSegment : objectHandler.removeRootPrefix(objectHandler.path).split("\\.")) {//NOSONAR
+			for (String pathSegment : objectHandler.removeRootPrefix(objectHandler.path).split("\\.")) {
 				if (value == null) {
 					break;
 				}
@@ -189,7 +189,7 @@ public class ObjectHandler  {
 				converter,
 				collector
 			);
-		} catch (TerminateIterationException exc) {//NOSONAR
+		} catch (TerminateIterationException exc) {
 
 		}
 		return collector.stream().findFirst().orElseGet(() -> null);
@@ -291,7 +291,7 @@ public class ObjectHandler  {
 		));
 	}
 
-	<O> void checkAndCollectValue(//NOSONAR
+	<O> void checkAndCollectValue(
 		String path,
 		Object value,
 		Function<ObjectHandler, Map.Entry<Boolean, TerminateIterationException>> filter,
@@ -300,7 +300,7 @@ public class ObjectHandler  {
 	) {
 		path = removeRootPrefix(path);
 		String finalPath = this.path.isEmpty() ? path :
-			path.isEmpty() ?//NOSONAR
+			path.isEmpty() ?
 				this.path :
 				this.path + "." + path;
 		ObjectHandler objectHandler = !Path.INSTANCE.isRoot(finalPath) ?
@@ -337,7 +337,7 @@ public class ObjectHandler  {
 
 	protected String removeRootPrefix(String path) {
 		if (!Path.Segment.root.isEmpty() && path.startsWith(Path.Segment.root)) {
-			path = path.replaceFirst(Path.Segment.root, "");//NOSONAR
+			path = path.replaceFirst(Path.Segment.root, "");
 			if (path.startsWith(".")) {
 				path = path.substring(1);
 			}
