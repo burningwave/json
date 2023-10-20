@@ -79,6 +79,6 @@ For this purpose is necessary the use of  **ObjectHandler**. Let's assume the fo
 
 # <a name="Ask-for-assistance"></a>Ask for assistance
 If this guide can't help you, you can:
-* [open a discussion](https://github.com/burningwave/JSON/discussions) here on GitHub
-* [report a bug](https://github.com/burningwave/JSON/issues) here on GitHub
+* [open a discussion](https://github.com/burningwave/json/discussions) here on GitHub
+* [report a bug](https://github.com/burningwave/json/issues) here on GitHub
 * ask on [Stack Overflow](https://stackoverflow.com/search?q=burningwave)

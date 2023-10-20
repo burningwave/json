@@ -3,7 +3,7 @@
  *
  * Author: Roberto Gentili
  *
- * Hosted at: https://github.com/burningwave/JSON
+ * Hosted at: https://github.com/burningwave/json
  *
  * --
  *
