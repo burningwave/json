@@ -57,15 +57,24 @@ import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 
 @SuppressWarnings({"unchecked"})
 public class Validator {
+	public final static Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>>  DEFAULT_EXCEPTION_BUILDER;
+
+
 	private static final String DEFAULT_LEAF_CHECKS_ID;
 	private static final String DEFAULT_OBJECT_CHECKS_ID;
 	private static final String DEFAULT_INDEXED_OBJECT_CHECKS_ID;
-	protected final static Object logger;
+	protected static final Object logger;
 
 	static {
 		DEFAULT_LEAF_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultLeafChecks");
 		DEFAULT_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultObjectChecks");
 		DEFAULT_INDEXED_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultIndexedObjectChecks");
+		DEFAULT_EXCEPTION_BUILDER = pathValidationContext -> checkType -> messageArguments -> {
+			Strings.INSTANCE.compile(checkType, messageArguments);
+			return new Validation.Exception(
+				pathValidationContext.getPath(), Strings.INSTANCE.compile(checkType, messageArguments)
+			);
+		};
 		logger = SLF4J.INSTANCE.tryToInitLogger(Validator.class);
 	}
 
@@ -73,13 +82,29 @@ public class Validator {
 
 	protected final ObjectMapper objectMapper;
 	protected final SchemaHolder schemaHolder;
-	protected final Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
+	protected Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
 	protected final Map<String, Collection<ObjectCheck>> objectChecks;
 	protected final Map<String, Collection<IndexedObjectCheck<?>>> indexedObjectChecks;
 	protected final Map<String, Collection<LeafCheck<?, ?>>> leafChecks;
 	protected final Collection<LeafCheck<?, ?>> defaultLeafChecks;
 	protected final Collection<ObjectCheck> defaultObjectChecks;
 	protected final Collection<IndexedObjectCheck<?>> defaultIndexedObjectChecks;
+
+	public Validator(
+		ObjectMapper objectMapper
+	) {
+		this(objectMapper, new SchemaHolder(objectMapper), DEFAULT_EXCEPTION_BUILDER);
+	}
+
+	public Validator(
+		SchemaHolder schemaHolder
+	) {
+		this(
+			schemaHolder.objectMapper,
+			schemaHolder,
+			DEFAULT_EXCEPTION_BUILDER
+		);
+	}
 
 	public Validator(
 		SchemaHolder schemaHolder,
@@ -115,6 +140,10 @@ public class Validator {
 			DEFAULT_INDEXED_OBJECT_CHECKS_ID,
 			this.defaultIndexedObjectChecks = new ArrayList<>() //NOSONAR
 		);
+	}
+
+	public void setExceptionBuilder(Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder) {
+		this.exceptionBuilder = exceptionBuilder;
 	}
 
 	public synchronized void registerCheck(Check<?, ?, ?>... items) {
@@ -162,7 +191,7 @@ public class Validator {
 	}
 
 	public <I> Collection<Throwable> validate(
-		ValidationConfig<I> config
+		Validation.Config<I> config
 	) {
 		try {
 			Object jsonObject = config.jsonObjectOrSupplier;
@@ -176,7 +205,7 @@ public class Validator {
 			} else {
 				objectHandler = ObjectHandler.create(objectMapper, jsonObject);
 			}
-			ValidationContext validationContext = createValidationContext(
+			Validation.Context validationContext = createValidationContext(
 				config,
 				objectHandler
 			);
@@ -198,7 +227,7 @@ public class Validator {
 		}
 	}
 
-	protected void validateRaw(ValidationContext validationContext) {
+	protected void validateRaw(Validation.Context validationContext) {
 		validateRaw(
 			validationContext,
 			validationContext.objectChecks,
@@ -217,7 +246,7 @@ public class Validator {
 	}
 
 	protected <S extends JsonSchema, T, C extends Check.Abst<S, T, C>> void validateRaw(
-		ValidationContext validationContext,
+		Validation.Context validationContext,
 		Collection<C> checkList,
 		Function<C, S> schemaMockBuilder
 	) {
@@ -231,7 +260,7 @@ public class Validator {
 	}
 
 	protected <S extends JsonSchema, T, C extends Check.Abst<S, T, C>> void processPathCheck(
-		ValidationContext validationContext,
+		Validation.Context validationContext,
 		Function<C, S> schemaMockBuilder,
 		C check
 	) {
@@ -265,7 +294,7 @@ public class Validator {
 	}
 
 	protected <S extends JsonSchema, T, C extends Check.Abst<S, T, C>> void processCheck(
-		ValidationContext validationContext,
+		Validation.Context validationContext,
 		Function<C, S> schemaMockBuilder,
 		C check
 	) {
@@ -312,7 +341,7 @@ public class Validator {
 				schema = (S)arraySchema;
 			}
 			if (schema != null) {
-				schema.setDescription(ValidationContext.MOCK_SCHEMA_LABEL);
+				schema.setDescription(Validation.Context.MOCK_SCHEMA_LABEL);
 			}
 		}
 		return schema;
@@ -322,7 +351,7 @@ public class Validator {
 		String path,
 		JsonSchema jsonSchema,
 		Object jsonObject,
-		ValidationContext validationContext
+		Validation.Context validationContext
 	) {
 		if (jsonSchema instanceof ObjectSchema) {
 			validate(
@@ -352,7 +381,7 @@ public class Validator {
 		String path,
 		ObjectSchema jsonSchema,
 		Map<String, Object> jSonObject,
-		ValidationContext validationContext
+		Validation.Context validationContext
 	) {
 		Path.ValidationContext<ObjectSchema,Map<String, Object>> pathValidationContext =
 			new Path.ValidationContext<>(validationContext, path, jsonSchema, jSonObject);
@@ -395,7 +424,7 @@ public class Validator {
 		String path,
 		ArraySchema jsonSchema,
 		Collection<I> jSonObject,
-		ValidationContext validationContext
+		Validation.Context validationContext
 	) {
 		Path.ValidationContext<ArraySchema,?> pathValidationContext =
 			new Path.ValidationContext<>(validationContext, path, jsonSchema, jSonObject);
@@ -427,7 +456,7 @@ public class Validator {
 		String path,
 		JsonSchema jsonSchema,
 		Object value,
-		ValidationContext validationContext
+		Validation.Context validationContext
 	) {
 		Path.ValidationContext<?, ?> pathValidationContext = new Path.ValidationContext<>(validationContext, path, jsonSchema, value);
 		if (validationContext.validationConfig.pathFilter.test(pathValidationContext)) {
@@ -483,11 +512,11 @@ public class Validator {
 		}
 	}
 
-	protected <I> ValidationContext createValidationContext(
-		ValidationConfig<I> config,
+	protected <I> Validation.Context createValidationContext(
+		Validation.Config<I> config,
 		ObjectHandler objectHandler
 	) {
-		return new ValidationContext(
+		return new Validation.Context(
 			exceptionBuilder,
 			config,
 			objectHandler,

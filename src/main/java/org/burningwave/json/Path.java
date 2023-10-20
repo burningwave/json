@@ -196,14 +196,14 @@ public class Path {
 
 	public static class ValidationContext<S extends JsonSchema, T> {
 
-		final org.burningwave.json.ValidationContext validationContext; //NOSONAR
+		final org.burningwave.json.Validation.Context validationContext; //NOSONAR
 		final String path;
 		final String name;
 		final List<Integer> indexes;
 		final S jsonSchema;
 		final T rawValue;
 
-		ValidationContext(org.burningwave.json.ValidationContext validationContext, String path, S jsonSchema, Object value) {
+		ValidationContext(org.burningwave.json.Validation.Context validationContext, String path, S jsonSchema, Object value) {
 			this.validationContext = validationContext;
 			this.path = path;
 			this.jsonSchema = jsonSchema;
@@ -215,7 +215,7 @@ public class Path {
 				this.indexes = null;
 			}
 			String schemaDescription = jsonSchema.getDescription();
-			if (org.burningwave.json.ValidationContext.MOCK_SCHEMA_LABEL.equals(schemaDescription) &&
+			if (org.burningwave.json.Validation.Context.MOCK_SCHEMA_LABEL.equals(schemaDescription) &&
 				!validationContext.checkValue(jsonSchema, value)
 			) {
 				rejectValue(Check.Error.UNEXPECTED_TYPE);
@@ -258,7 +258,7 @@ public class Path {
 			return Optional.ofNullable(jsonSchema.getRequired()).orElseGet(() -> false);
 		}
 
-		public org.burningwave.json.ValidationContext getValidationContext() {
+		public org.burningwave.json.Validation.Context getValidationContext() {
 			return validationContext;
 		}
 
