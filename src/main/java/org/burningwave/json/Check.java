@@ -38,7 +38,6 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 import org.burningwave.Strings;
-import org.burningwave.json.Path.ValidationContext;
 
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.types.ArraySchema;
@@ -51,7 +50,7 @@ import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 @SuppressWarnings("unchecked")
 public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 
-	public O execute(Consumer<Path.ValidationContext<S, T>> action);
+	public O execute(Consumer<Path.Validation.Context<S, T>> action);
 
 	public enum Error {
 		UNEXPECTED_TYPE,
@@ -81,7 +80,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		);
 	}
 
-	public static <O> Group when(Predicate<Path.ValidationContext<JsonSchema, O>> predicate) {
+	public static <O> Group when(Predicate<Path.Validation.Context<JsonSchema, O>> predicate) {
 		return Group.of(
 			whenObject((Predicate)predicate),
 			whenIndexedObject((Predicate)predicate),
@@ -126,7 +125,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenValue(null);
 	}
 
-	public static LeafCheck<JsonSchema, Object> whenValue(Predicate<Path.ValidationContext<JsonSchema, Object>> predicate) {
+	public static LeafCheck<JsonSchema, Object> whenValue(Predicate<Path.Validation.Context<JsonSchema, Object>> predicate) {
 		return new LeafCheck<>(JsonSchema.class, predicate);
 	}
 
@@ -163,7 +162,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenStringValue(null);
 	}
 
-	public static LeafCheck.OfString whenStringValue(Predicate<Path.ValidationContext<StringSchema,String>> predicate) {
+	public static LeafCheck.OfString whenStringValue(Predicate<Path.Validation.Context<StringSchema,String>> predicate) {
 		return new LeafCheck.OfString(predicate);
 	}
 
@@ -196,7 +195,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenIntegerValue(null);
 	}
 
-	public static LeafCheck<IntegerSchema, Integer> whenIntegerValue(Predicate<Path.ValidationContext<IntegerSchema,Integer>> predicate) {
+	public static LeafCheck<IntegerSchema, Integer> whenIntegerValue(Predicate<Path.Validation.Context<IntegerSchema,Integer>> predicate) {
 		return new LeafCheck<>(IntegerSchema.class, predicate);
 	}
 
@@ -233,7 +232,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenNumberValue(null);
 	}
 
-	public static LeafCheck<NumberSchema, Number> whenNumberValue(Predicate<Path.ValidationContext<NumberSchema,Number>> predicate) {
+	public static LeafCheck<NumberSchema, Number> whenNumberValue(Predicate<Path.Validation.Context<NumberSchema,Number>> predicate) {
 		return new LeafCheck<>(NumberSchema.class, predicate);
 	}
 
@@ -270,7 +269,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenBooleanValue(null);
 	}
 
-	public static LeafCheck<BooleanSchema, Boolean> whenBooleanValue(Predicate<Path.ValidationContext<BooleanSchema,Boolean>> predicate) {
+	public static LeafCheck<BooleanSchema, Boolean> whenBooleanValue(Predicate<Path.Validation.Context<BooleanSchema,Boolean>> predicate) {
 		return new LeafCheck<>(BooleanSchema.class, predicate);
 	}
 
@@ -307,7 +306,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenObject(null);
 	}
 
-	public static ObjectCheck whenObject(Predicate<Path.ValidationContext<ObjectSchema, Map<String, Object>>> predicate) {
+	public static ObjectCheck whenObject(Predicate<Path.Validation.Context<ObjectSchema, Map<String, Object>>> predicate) {
 		return new ObjectCheck(predicate);
 	}
 
@@ -340,7 +339,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenIndexedObject(null);
 	}
 
-	public static <I> IndexedObjectCheck<I> whenIndexedObject(Predicate<Path.ValidationContext<ArraySchema, List<I>>> predicate) {
+	public static <I> IndexedObjectCheck<I> whenIndexedObject(Predicate<Path.Validation.Context<ArraySchema, List<I>>> predicate) {
 		return new IndexedObjectCheck<>(null, predicate);
 	}
 
@@ -377,7 +376,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenIndexedStrings(null);
 	}
 
-	public static IndexedObjectCheck<String> whenIndexedStrings(Predicate<Path.ValidationContext<ArraySchema, List<String>>> predicate) {
+	public static IndexedObjectCheck<String> whenIndexedStrings(Predicate<Path.Validation.Context<ArraySchema, List<String>>> predicate) {
 		return new IndexedObjectCheck<>(StringSchema.class, predicate);
 	}
 
@@ -414,7 +413,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenIndexedIntegers(null);
 	}
 
-	public static IndexedObjectCheck<Integer> whenIndexedIntegers(Predicate<Path.ValidationContext<ArraySchema, List<Integer>>> predicate) {
+	public static IndexedObjectCheck<Integer> whenIndexedIntegers(Predicate<Path.Validation.Context<ArraySchema, List<Integer>>> predicate) {
 		return new IndexedObjectCheck<>(IntegerSchema.class, predicate);
 	}
 
@@ -451,7 +450,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenIndexedNumbers(null);
 	}
 
-	public static IndexedObjectCheck<Number> whenIndexedNumbers(Predicate<Path.ValidationContext<ArraySchema, List<Number>>> predicate) {
+	public static IndexedObjectCheck<Number> whenIndexedNumbers(Predicate<Path.Validation.Context<ArraySchema, List<Number>>> predicate) {
 		return new IndexedObjectCheck<>(NumberSchema.class, predicate);
 	}
 
@@ -488,7 +487,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		return whenIndexedBooleans(null);
 	}
 
-	public static IndexedObjectCheck<Boolean> whenIndexedBooleans(Predicate<Path.ValidationContext<ArraySchema, List<Boolean>>> predicate) {
+	public static IndexedObjectCheck<Boolean> whenIndexedBooleans(Predicate<Path.Validation.Context<ArraySchema, List<Boolean>>> predicate) {
 		return new IndexedObjectCheck<>(BooleanSchema.class, predicate);
 	}
 
@@ -522,10 +521,10 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 
 	abstract class Abst<S extends JsonSchema, T, C extends Abst<S, T, C>> implements Check<S, T, C> {
 		Class<S> schemaClass;
-		Predicate<Path.ValidationContext<S,T>> predicate;
-		Consumer<Path.ValidationContext<S,T>> action;
+		Predicate<Path.Validation.Context<S,T>> predicate;
+		Consumer<Path.Validation.Context<S,T>> action;
 
-		Abst(Class<S> jsonSchemaClass, Predicate<Path.ValidationContext<S,T>> predicate) {
+		Abst(Class<S> jsonSchemaClass, Predicate<Path.Validation.Context<S,T>> predicate) {
 			this.schemaClass = jsonSchemaClass;
 			this.predicate = buildBasicPredicate(jsonSchemaClass);
 			if (predicate != null) {
@@ -533,16 +532,16 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 			}
 		}
 
-		Predicate<Path.ValidationContext<S,T>> buildBasicPredicate(Class<? extends JsonSchema> jsonSchemaClass) {
+		Predicate<Path.Validation.Context<S,T>> buildBasicPredicate(Class<? extends JsonSchema> jsonSchemaClass) {
 			return pathValidationContext -> jsonSchemaClass.isInstance(pathValidationContext.jsonSchema);
 		}
 
-		static <S extends JsonSchema, T> Predicate<Path.ValidationContext<S,T>> buildPathPredicate(String path, UnaryOperator<String> pathProcessor) {
+		static <S extends JsonSchema, T> Predicate<Path.Validation.Context<S,T>> buildPathPredicate(String path, UnaryOperator<String> pathProcessor) {
 			String pathRegEx = pathProcessor != null ?
 						pathProcessor.apply(path) : path;
-			return new Path.Predicate<Path.ValidationContext<S,T>>(path, pathRegEx) {
+			return new Path.Predicate<Path.Validation.Context<S,T>>(path, pathRegEx) {
 				@Override
-				public boolean test(Path.ValidationContext<S, T> pathValidationContext) {
+				public boolean test(Path.Validation.Context<S, T> pathValidationContext) {
 					return pathValidationContext.path.matches(pathRegEx);
 				}
 
@@ -550,7 +549,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		}
 
 		@Override
-		public synchronized C execute(Consumer<Path.ValidationContext<S,T>> action) {
+		public synchronized C execute(Consumer<Path.Validation.Context<S,T>> action) {
 			if (this.action != null) {
 				this.action = this.action.andThen(action);
 			} else {
@@ -573,7 +572,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 		}
 
 		@Override
-		public Check.Group execute(Consumer<ValidationContext<JsonSchema, Object>> action) {
+		public Check.Group execute(Consumer<Path.Validation.Context<JsonSchema, Object>> action) {
 			for (Check<?, ?, ?> item : this.items) {
 				((Abst<?, ?, ?>)item).action = (Consumer)action;
 			}

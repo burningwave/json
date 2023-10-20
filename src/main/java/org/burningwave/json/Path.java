@@ -193,148 +193,150 @@ public class Path {
 	public boolean isRoot(String path) {
 		return Path.Segment.root.equals(path);
 	}
+	public interface Validation {
+		public static class Context<S extends JsonSchema, T> {
 
-	public static class ValidationContext<S extends JsonSchema, T> {
+			final org.burningwave.json.Validation.Context validationContext; //NOSONAR
+			final String path;
+			final String name;
+			final List<Integer> indexes;
+			final S jsonSchema;
+			final T rawValue;
 
-		final org.burningwave.json.Validation.Context validationContext; //NOSONAR
-		final String path;
-		final String name;
-		final List<Integer> indexes;
-		final S jsonSchema;
-		final T rawValue;
-
-		ValidationContext(org.burningwave.json.Validation.Context validationContext, String path, S jsonSchema, Object value) {
-			this.validationContext = validationContext;
-			this.path = path;
-			this.jsonSchema = jsonSchema;
-			this.name = Path.INSTANCE.getName(path);
-			List<Integer> indexes = Path.INSTANCE.getIndexes(name);//NOSONAR
-			if (!indexes.isEmpty()) {
-				this.indexes = Collections.unmodifiableList(indexes);
-			} else {
-				this.indexes = null;
+			Context(org.burningwave.json.Validation.Context validationContext, String path, S jsonSchema, Object value) {
+				this.validationContext = validationContext;
+				this.path = path;
+				this.jsonSchema = jsonSchema;
+				this.name = Path.INSTANCE.getName(path);
+				List<Integer> indexes = Path.INSTANCE.getIndexes(name);//NOSONAR
+				if (!indexes.isEmpty()) {
+					this.indexes = Collections.unmodifiableList(indexes);
+				} else {
+					this.indexes = null;
+				}
+				String schemaDescription = jsonSchema.getDescription();
+				if (org.burningwave.json.Validation.Context.MOCK_SCHEMA_LABEL.equals(schemaDescription) &&
+					!validationContext.checkValue(jsonSchema, value)
+				) {
+					rejectValue(Check.Error.UNEXPECTED_TYPE);
+				}
+				this.rawValue = (T)value;
 			}
-			String schemaDescription = jsonSchema.getDescription();
-			if (org.burningwave.json.Validation.Context.MOCK_SCHEMA_LABEL.equals(schemaDescription) &&
-				!validationContext.checkValue(jsonSchema, value)
+
+			public ObjectHandler getRootHandler() {
+				return validationContext.getInputHandler();
+			}
+
+			public ObjectHandler getObjectHandler() {
+				return getRootHandler().newFinder().findForPathEquals(this.path);
+			}
+
+			public void rejectValue(
+				Check.Error checkType,
+				Object... messageArgs
 			) {
-				rejectValue(Check.Error.UNEXPECTED_TYPE);
+				validationContext.rejectValue(this, checkType.name(), messageArgs);
 			}
-			this.rawValue = (T)value;
-		}
 
-		public ObjectHandler getRootHandler() {
-			return validationContext.getInputHandler();
-		}
-
-		public ObjectHandler getObjectHandler() {
-			return getRootHandler().newFinder().findForPathEquals(this.path);
-		}
-
-		public void rejectValue(
-			Check.Error checkType,
-			Object... messageArgs
-		) {
-			validationContext.rejectValue(this, checkType.name(), messageArgs);
-		}
-
-		public void rejectValue(
-			String checkType,
-			Object... messageArgs
-		) {
-			validationContext.rejectValue(this, checkType, messageArgs);
-		}
-
-		public static <S extends JsonSchema, T> java.util.function.Predicate<Path.ValidationContext<S, T>> predicateFor(
-			Class<T> valueType,
-			java.util.function.Predicate<Path.ValidationContext<S, T>> predicate
-		) {
-			return pathValidationContext ->
-				(valueType == null || valueType.isInstance(pathValidationContext.rawValue)) &&
-				predicate.test(pathValidationContext);
-		}
-
-		public boolean isFieldRequired() {
-			return Optional.ofNullable(jsonSchema.getRequired()).orElseGet(() -> false);
-		}
-
-		public org.burningwave.json.Validation.Context getValidationContext() {
-			return validationContext;
-		}
-
-		public S getJsonSchema() {
-			return jsonSchema;
-		}
-
-		public String getPath() {
-			return path;
-		}
-
-		public String getName() {
-			return this.name;
-		}
-
-		public T getRawValue() {
-			return rawValue;
-		}
-
-		public T getValue() {
-			if (rawValue != null && !Classes.INSTANCE.isPrimitive(rawValue)) {
-				getRootHandler().newValueFinder().findForPathEquals(this.path);
+			public void rejectValue(
+				String checkType,
+				Object... messageArgs
+			) {
+				validationContext.rejectValue(this, checkType, messageArgs);
 			}
-			return rawValue;
-		}
 
-		public Integer getIndex() {
-			return indexes != null ?
-				indexes.get(indexes.size() - 1) : null;
-		}
-
-		public <V> V getParent() {
-			return findValue(Path.Segment.parent);
-		}
-
-		public ObjectHandler getParentObjectHandler() {
-			return findObjectHandler(Path.Segment.parent);
-		}
-
-		public <V> V findValue(String... pathSegmentsOrRelativePathSegments) {
-			return getRootHandler().newValueFinder().findForPathEquals(
-				resolvePath(pathSegmentsOrRelativePathSegments)
-			);
-		}
-
-		public ObjectHandler findObjectHandler(String... pathSegmentsOrRelativePathSegments) {
-			return getRootHandler().newFinder().findForPathEquals(
-				resolvePath(pathSegmentsOrRelativePathSegments)
-			);
-		}
-
-		public <V> V findValueAndConvert(Class<V> targetClass, String... pathSegmentsOrRelativePathSegments) {
-			return getRootHandler().newValueFinderAndConverter(targetClass).findForPathEquals(
-				resolvePath(pathSegmentsOrRelativePathSegments)
-			);
-		}
-
-		protected String resolvePath(String... pathSegmentsOrRelativePathSegments) {
-			String pathToFind = Path.of(pathSegmentsOrRelativePathSegments);
-			if (!pathToFind.startsWith("/")) {
-				return Path.INSTANCE.normalize(this.path, pathToFind);
-			} else {
-				return Path.INSTANCE.normalize(pathToFind);
+			public static <S extends JsonSchema, T> java.util.function.Predicate<Path.Validation.Context<S, T>> predicateFor(
+				Class<T> valueType,
+				java.util.function.Predicate<Path.Validation.Context<S, T>> predicate
+			) {
+				return pathValidationContext ->
+					(valueType == null || valueType.isInstance(pathValidationContext.rawValue)) &&
+					predicate.test(pathValidationContext);
 			}
-		}
 
-		public boolean isRoot() {
-			return Path.INSTANCE.isRoot(path);
-		}
+			public boolean isFieldRequired() {
+				return Optional.ofNullable(jsonSchema.getRequired()).orElseGet(() -> false);
+			}
 
-		@Override
-		public String toString() {
-			return
-				path + " - " +
-				jsonSchema.getClass().getSimpleName().replace("Schema", "") + ": " +
-				Optional.ofNullable(rawValue).map(Object::toString).orElseGet(() -> "null");
+			public org.burningwave.json.Validation.Context getValidationContext() {
+				return validationContext;
+			}
+
+			public S getJsonSchema() {
+				return jsonSchema;
+			}
+
+			public String getPath() {
+				return path;
+			}
+
+			public String getName() {
+				return this.name;
+			}
+
+			public T getRawValue() {
+				return rawValue;
+			}
+
+			public T getValue() {
+				if (rawValue != null && !Classes.INSTANCE.isPrimitive(rawValue)) {
+					getRootHandler().newValueFinder().findForPathEquals(this.path);
+				}
+				return rawValue;
+			}
+
+			public Integer getIndex() {
+				return indexes != null ?
+					indexes.get(indexes.size() - 1) : null;
+			}
+
+			public <V> V getParent() {
+				return findValue(Path.Segment.parent);
+			}
+
+			public ObjectHandler getParentObjectHandler() {
+				return findObjectHandler(Path.Segment.parent);
+			}
+
+			public <V> V findValue(String... pathSegmentsOrRelativePathSegments) {
+				return getRootHandler().newValueFinder().findForPathEquals(
+					resolvePath(pathSegmentsOrRelativePathSegments)
+				);
+			}
+
+			public ObjectHandler findObjectHandler(String... pathSegmentsOrRelativePathSegments) {
+				return getRootHandler().newFinder().findForPathEquals(
+					resolvePath(pathSegmentsOrRelativePathSegments)
+				);
+			}
+
+			public <V> V findValueAndConvert(Class<V> targetClass, String... pathSegmentsOrRelativePathSegments) {
+				return getRootHandler().newValueFinderAndConverter(targetClass).findForPathEquals(
+					resolvePath(pathSegmentsOrRelativePathSegments)
+				);
+			}
+
+			protected String resolvePath(String... pathSegmentsOrRelativePathSegments) {
+				String pathToFind = Path.of(pathSegmentsOrRelativePathSegments);
+				if (!pathToFind.startsWith("/")) {
+					return Path.INSTANCE.normalize(this.path, pathToFind);
+				} else {
+					return Path.INSTANCE.normalize(pathToFind);
+				}
+			}
+
+			public boolean isRoot() {
+				return Path.INSTANCE.isRoot(path);
+			}
+
+			@Override
+			public String toString() {
+				return
+					path + " - " +
+					jsonSchema.getClass().getSimpleName().replace("Schema", "") + ": " +
+					Optional.ofNullable(rawValue).map(Object::toString).orElseGet(() -> "null");
+			}
+
 		}
 
 	}

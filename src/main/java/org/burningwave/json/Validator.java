@@ -57,7 +57,7 @@ import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 
 @SuppressWarnings({"unchecked"})
 public class Validator {
-	public final static Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>>  DEFAULT_EXCEPTION_BUILDER;
+	public final static Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>>  DEFAULT_EXCEPTION_BUILDER;
 
 
 	private static final String DEFAULT_LEAF_CHECKS_ID;
@@ -82,7 +82,7 @@ public class Validator {
 
 	protected final ObjectMapper objectMapper;
 	protected final SchemaHolder schemaHolder;
-	protected Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
+	protected Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
 	protected final Map<String, Collection<ObjectCheck>> objectChecks;
 	protected final Map<String, Collection<IndexedObjectCheck<?>>> indexedObjectChecks;
 	protected final Map<String, Collection<LeafCheck<?, ?>>> leafChecks;
@@ -108,7 +108,7 @@ public class Validator {
 
 	public Validator(
 		SchemaHolder schemaHolder,
-		Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder
+		Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder
 	) {
 		this(
 			schemaHolder.objectMapper,
@@ -120,7 +120,7 @@ public class Validator {
 	public Validator(
 		ObjectMapper objectMapper,
 		SchemaHolder schemaHolder,
-		Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder
+		Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder
 	) {
 		this.objectMapper = objectMapper;
 		this.schemaHolder = schemaHolder;
@@ -142,7 +142,7 @@ public class Validator {
 		);
 	}
 
-	public void setExceptionBuilder(Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder) {
+	public void setExceptionBuilder(Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder) {
 		this.exceptionBuilder = exceptionBuilder;
 	}
 
@@ -264,8 +264,8 @@ public class Validator {
 		Function<C, S> schemaMockBuilder,
 		C check
 	) {
-		Path.Predicate<Path.ValidationContext<S,T>> pathPredicate =
-			(Path.Predicate<Path.ValidationContext<S,T>>) check.predicate;
+		Path.Predicate<Path.Validation.Context<S,T>> pathPredicate =
+			(Path.Predicate<Path.Validation.Context<S,T>>) check.predicate;
 		Collection<ObjectHandler> objectHandlers = new ArrayList<>();
 		Collection<Map.Entry<String, String>> pathForRegExColl = pathPredicate.pathForRegEx;
 		for (Map.Entry<String, String> pathForRegEx : pathForRegExColl) {
@@ -273,8 +273,8 @@ public class Validator {
 		}
 		if (!objectHandlers.isEmpty()) {
 			for (ObjectHandler objectHandler : objectHandlers) {
-				Path.ValidationContext<S,T> pathValidationContext =
-					new Path.ValidationContext<>(
+				Path.Validation.Context<S,T> pathValidationContext =
+					new Path.Validation.Context<>(
 						validationContext,
 						objectHandler.path,
 						schemaMockBuilder.apply(check),
@@ -286,8 +286,8 @@ public class Validator {
 			}
 		} else {
 			for (Map.Entry<String, String> pathForRegEx : pathForRegExColl) {
-				Path.ValidationContext<S,T> pathValidationContext =
-					new Path.ValidationContext<>(validationContext, pathForRegEx.getKey(), schemaMockBuilder.apply(check), null);
+				Path.Validation.Context<S,T> pathValidationContext =
+					new Path.Validation.Context<>(validationContext, pathForRegEx.getKey(), schemaMockBuilder.apply(check), null);
 				check.action.accept(pathValidationContext);
 			}
 		}
@@ -302,8 +302,8 @@ public class Validator {
 		S schemaMock = schemaMockBuilder.apply(check);
 		for (ObjectHandler objectHandler : objectHandlers) {
 			if (validationContext.checkValue(schemaMock, objectHandler.rawValue)) {
-				Path.ValidationContext<S,T> pathValidationContext =
-					new Path.ValidationContext<>(
+				Path.Validation.Context<S,T> pathValidationContext =
+					new Path.Validation.Context<>(
 						validationContext,
 						objectHandler.path,
 						schemaMock,
@@ -383,8 +383,8 @@ public class Validator {
 		Map<String, Object> jSonObject,
 		Validation.Context validationContext
 	) {
-		Path.ValidationContext<ObjectSchema,Map<String, Object>> pathValidationContext =
-			new Path.ValidationContext<>(validationContext, path, jsonSchema, jSonObject);
+		Path.Validation.Context<ObjectSchema,Map<String, Object>> pathValidationContext =
+			new Path.Validation.Context<>(validationContext, path, jsonSchema, jSonObject);
 		if (validationContext.validationConfig.pathFilter.test(pathValidationContext)) {
 			tryToExecuteChecks(
 				validationContext.objectChecks,
@@ -426,8 +426,8 @@ public class Validator {
 		Collection<I> jSonObject,
 		Validation.Context validationContext
 	) {
-		Path.ValidationContext<ArraySchema,?> pathValidationContext =
-			new Path.ValidationContext<>(validationContext, path, jsonSchema, jSonObject);
+		Path.Validation.Context<ArraySchema,?> pathValidationContext =
+			new Path.Validation.Context<>(validationContext, path, jsonSchema, jSonObject);
 		if (validationContext.validationConfig.pathFilter.test(pathValidationContext)) {
 			Stream<I> indexedObjectStream = jSonObject != null?
 				(jSonObject).stream():
@@ -435,7 +435,7 @@ public class Validator {
 			Collection<C> checkList = (Collection<C>)validationContext.indexedObjectChecks;
 			tryToExecuteChecks(
 				checkList,
-				(Path.ValidationContext<S, T>)pathValidationContext
+				(Path.Validation.Context<S, T>)pathValidationContext
 			);
 			JsonSchema itemSchema = jsonSchema.getItems().asSingleItems().getSchema();
 			AtomicInteger index = new AtomicInteger(0);
@@ -458,12 +458,12 @@ public class Validator {
 		Object value,
 		Validation.Context validationContext
 	) {
-		Path.ValidationContext<?, ?> pathValidationContext = new Path.ValidationContext<>(validationContext, path, jsonSchema, value);
+		Path.Validation.Context<?, ?> pathValidationContext = new Path.Validation.Context<>(validationContext, path, jsonSchema, value);
 		if (validationContext.validationConfig.pathFilter.test(pathValidationContext)) {
 			Collection<C> checkList = (Collection<C>)validationContext.leafChecks;
 			tryToExecuteChecks(
 				checkList,
-				(Path.ValidationContext<S, T>)pathValidationContext
+				(Path.Validation.Context<S, T>)pathValidationContext
 			);
 		} else {
 			logSkippingValidation(pathValidationContext);
@@ -472,7 +472,7 @@ public class Validator {
 
 	protected <S extends JsonSchema, T, C extends Check.Abst<S, T, C>> void tryToExecuteChecks(//NOSONAR
 		Collection<C> checkList,
-		Path.ValidationContext<S, T> pathValidationContext
+		Path.Validation.Context<S, T> pathValidationContext
 	) {
 		int executedChecks = 0;
 		for (C check : checkList) {
@@ -542,7 +542,7 @@ public class Validator {
 	}
 
 	protected void logSkippingValidation(
-		Path.ValidationContext<?, ?> pathValidationContext
+		Path.Validation.Context<?, ?> pathValidationContext
 	) {
 		if (logger != null && pathValidationContext.validationContext.validationConfig.isDeepLoggingEnabled()){
 			((org.slf4j.Logger)logger).debug(

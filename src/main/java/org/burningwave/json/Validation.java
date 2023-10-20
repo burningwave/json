@@ -50,8 +50,8 @@ import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 public class Validation {
 
 	public static class Config<I> {
-		private static final Predicate<Path.ValidationContext<?, ?>> DEFAULT_PATH_FILTER;
-		private static final Function<Check<?, ?, ?>, Predicate<Path.ValidationContext<?, ?>>> DEFAULT_CHECK_FILTER;
+		private static final Predicate<Path.Validation.Context<?, ?>> DEFAULT_PATH_FILTER;
+		private static final Function<Check<?, ?, ?>, Predicate<Path.Validation.Context<?, ?>>> DEFAULT_CHECK_FILTER;
 
 		static {
 			DEFAULT_PATH_FILTER =
@@ -63,8 +63,8 @@ public class Validation {
 		}
 
 		I jsonObjectOrSupplier;
-		Predicate<Path.ValidationContext<?, ?>> pathFilter;
-		Function<Check<?, ?, ?>, Predicate<Path.ValidationContext<?, ?>>> checkFilter;
+		Predicate<Path.Validation.Context<?, ?>> pathFilter;
+		Function<Check<?, ?, ?>, Predicate<Path.Validation.Context<?, ?>>> checkFilter;
 		boolean validateAll;
 		int logMode;
 		Collection<String> checkGroupIds;
@@ -81,12 +81,12 @@ public class Validation {
 			return new Config<>(jsonObject);
 		}
 
-		public Config<I> withPathFilter(Predicate<Path.ValidationContext<?, ?>> pathFilter) {
+		public Config<I> withPathFilter(Predicate<Path.Validation.Context<?, ?>> pathFilter) {
 			this.pathFilter = pathFilter;
 			return this;
 		}
 
-		public Config<I> withCheckFilter(Function<Check<?, ?, ?>, Predicate<Path.ValidationContext<?, ?>>> checkFilter) {
+		public Config<I> withCheckFilter(Function<Check<?, ?, ?>, Predicate<Path.Validation.Context<?, ?>>> checkFilter) {
 			this.checkFilter = checkFilter;
 			return this;
 		}
@@ -138,17 +138,17 @@ public class Validation {
 			MOCK_SCHEMA_LABEL = Strings.INSTANCE.toStringWithRandomUUIDSuffix("schemaMock");
 		}
 
-		final Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
+		final Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
 		final Validation.Config<?> validationConfig;
 		final ObjectHandler inputHandler;
 		final Collection<Throwable> exceptions;
-		final Function<Path.ValidationContext<?, ?>, Consumer<Throwable>> exceptionAdder;
+		final Function<Path.Validation.Context<?, ?>, Consumer<Throwable>> exceptionAdder;
 		final Collection<ObjectCheck> objectChecks;
 		final Collection<IndexedObjectCheck<?>> indexedObjectChecks;
 		final Collection<LeafCheck<?, ?>> leafChecks;
 
 		Context(//NOSONAR
-			Function<Path.ValidationContext<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder,
+			Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder,
 			Validation.Config<?> validationConfig,
 			ObjectHandler jsonObjectWrapper,
 			Collection<ObjectCheck> objectChecks,
@@ -176,7 +176,7 @@ public class Validation {
 		}
 
 		void rejectValue(
-			Path.ValidationContext<?, ?> pathValidationContext,
+			Path.Validation.Context<?, ?> pathValidationContext,
 			String checkType,
 			Object... messageArgs
 		) {

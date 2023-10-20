@@ -30,20 +30,18 @@ package org.burningwave.json;
 
 import java.util.function.Predicate;
 
-import org.burningwave.json.Path.ValidationContext;
-
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 
 public class LeafCheck<S extends JsonSchema, T> extends Check.Abst<S, T, LeafCheck<S, T>> {
 
-	LeafCheck(Class<S> jsonSchemaClass, Predicate<Path.ValidationContext<S,T>> predicate) {
+	LeafCheck(Class<S> jsonSchemaClass, Predicate<Path.Validation.Context<S,T>> predicate) {
 		super(jsonSchemaClass, predicate);
 	}
 
 	public static class OfString extends LeafCheck<StringSchema, String>{
 
-		OfString(Predicate<ValidationContext<StringSchema, String>> predicate) {
+		OfString(Predicate<Path.Validation.Context<StringSchema, String>> predicate) {
 			super(StringSchema.class, predicate);
 		}
 
