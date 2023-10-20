@@ -47,7 +47,7 @@ import com.fasterxml.jackson.module.jsonSchema.types.NumberSchema;
 import com.fasterxml.jackson.module.jsonSchema.types.ObjectSchema;
 import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 
-public class Validation {
+public interface Validation {
 
 	public static class Config<I> {
 		private static final Predicate<Path.Validation.Context<?, ?>> DEFAULT_PATH_FILTER;
