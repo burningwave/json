@@ -72,7 +72,7 @@ public class SchemaHolder {
 				    try {
 				    	jsonSchemasForClasses.put(
 			    			jsonObjectClass,
-			    			jsonSchema = jsonSchemaGenerator.generateSchema(jsonObjectClass)//NOSONAR
+			    			jsonSchema = jsonSchemaGenerator.generateSchema(jsonObjectClass)
 		    			);
 					} catch (JsonMappingException exc) {
 						return Throwables.INSTANCE.throwException(exc);

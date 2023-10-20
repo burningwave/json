@@ -54,9 +54,9 @@ public class Path {
 
 		protected Segment() {}
 
-		public static final String root = "";											//NOSONAR
-		public static final String parent = "../";										//NOSONAR
-		public static final String current = "./";										//NOSONAR
+		public static final String root = "";											
+		public static final String parent = "../";										
+		public static final String current = "./";										
 
 		public static final String toIndexed(String pathSegment, int... indexes) {
 			StringBuilder indexedNameBuilder = new StringBuilder(pathSegment);
@@ -83,7 +83,7 @@ public class Path {
 	}
 
 	private Path(){
-		multipleIndexesSearcher = Pattern.compile("\\[([\\d*\\s*,*]+)\\]");//NOSONAR
+		multipleIndexesSearcher = Pattern.compile("\\[([\\d*\\s*,*]+)\\]");
 		singleIndexSearcher = Pattern.compile("\\[([\\d*]+)\\]");
 		pathSeparatorSearcher = Pattern.compile("\\.(?![\\/\\.])");
 		unvalidCurrentOrParentDirectoryPlaceHolderSearcher = Pattern.compile("(?<![\\.\\/])\\.\\/|(?<!\\/)\\.\\.\\/");
@@ -196,7 +196,7 @@ public class Path {
 	public interface Validation {
 		public static class Context<S extends JsonSchema, T> {
 
-			final org.burningwave.json.Validation.Context validationContext; //NOSONAR
+			final org.burningwave.json.Validation.Context validationContext; 
 			final String path;
 			final String name;
 			final List<Integer> indexes;
@@ -208,7 +208,7 @@ public class Path {
 				this.path = path;
 				this.jsonSchema = jsonSchema;
 				this.name = Path.INSTANCE.getName(path);
-				List<Integer> indexes = Path.INSTANCE.getIndexes(name);//NOSONAR
+				List<Integer> indexes = Path.INSTANCE.getIndexes(name);
 				if (!indexes.isEmpty()) {
 					this.indexes = Collections.unmodifiableList(indexes);
 				} else {

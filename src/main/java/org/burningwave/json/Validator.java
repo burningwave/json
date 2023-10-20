@@ -57,7 +57,7 @@ import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 
 @SuppressWarnings({"unchecked"})
 public class Validator {
-	public final static Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>>  DEFAULT_EXCEPTION_BUILDER;
+	public static final Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>>  DEFAULT_EXCEPTION_BUILDER;
 
 
 	private static final String DEFAULT_LEAF_CHECKS_ID;
@@ -128,17 +128,17 @@ public class Validator {
 		this.leafChecks = new LinkedHashMap<>();
 		this.leafChecks.put(
 			DEFAULT_LEAF_CHECKS_ID,
-			this.defaultLeafChecks = new ArrayList<>() //NOSONAR
+			this.defaultLeafChecks = new ArrayList<>()
 		);
 		this.objectChecks = new LinkedHashMap<>();
 		this.objectChecks.put(
 			DEFAULT_OBJECT_CHECKS_ID,
-			this.defaultObjectChecks = new ArrayList<>() //NOSONAR
+			this.defaultObjectChecks = new ArrayList<>()
 		);
 		this.indexedObjectChecks = new LinkedHashMap<>();
 		this.indexedObjectChecks.put(
 			DEFAULT_INDEXED_OBJECT_CHECKS_ID,
-			this.defaultIndexedObjectChecks = new ArrayList<>() //NOSONAR
+			this.defaultIndexedObjectChecks = new ArrayList<>()
 		);
 	}
 
@@ -146,8 +146,8 @@ public class Validator {
 		this.exceptionBuilder = exceptionBuilder;
 	}
 
-	public synchronized void registerCheck(Check<?, ?, ?>... items) {
-		registerCheck(null, items);
+	public synchronized Validator registerCheck(Check<?, ?, ?>... items) {
+		return registerCheck(null, items);
 	}
 
 	/*
@@ -157,7 +157,7 @@ public class Validator {
 	 * non raw l'ordine in cui vengono eseguiti i controlli segue l'ordine
 	 * in cui vengono definiti i campi all'interno di tale classe
 	 */
-	public synchronized void registerCheck(
+	public synchronized Validator registerCheck(
 		String checkGroupId,
 		Check<?, ?, ?>... items
 	) {
@@ -188,10 +188,11 @@ public class Validator {
 				throw new IllegalArgumentException(item + " is not a valid check type");
 			}
 		}
+		return this;
 	}
 
-	public <I> Collection<Throwable> validate(Object jsonObject) {
-		return validate(Validation.Config.forJsonObject(null));
+	public Collection<Throwable> validate(Object jsonObject) {
+		return validate(Validation.Config.forJsonObject(jsonObject));
 	}
 
 	public <I> Collection<Throwable> validate(
@@ -205,7 +206,7 @@ public class Validator {
 			ObjectHandler objectHandler;
 			if (jsonObject instanceof ObjectHandler) {
 				objectHandler = (ObjectHandler)jsonObject;
-				jsonObject = objectHandler.getRawValue();//NOSONAR
+				jsonObject = objectHandler.getRawValue();
 			} else {
 				objectHandler = ObjectHandler.create(objectMapper, jsonObject);
 			}
@@ -418,7 +419,7 @@ public class Validator {
 	protected <I> I getObject(Supplier<Function<String, I>> fieldRetriever, String fieldName) {
 		try {
 			return fieldRetriever.get().apply(fieldName);
-		} catch (NullPointerException exc) {//NOSONAR
+		} catch (NullPointerException exc) {
 
 		}
 		return null;
@@ -474,7 +475,7 @@ public class Validator {
 		}
 	}
 
-	protected <S extends JsonSchema, T, C extends Check.Abst<S, T, C>> void tryToExecuteChecks(//NOSONAR
+	protected <S extends JsonSchema, T, C extends Check.Abst<S, T, C>> void tryToExecuteChecks(
 		Collection<C> checkList,
 		Path.Validation.Context<S, T> pathValidationContext
 	) {
@@ -487,7 +488,7 @@ public class Validator {
 					((org.slf4j.Logger)logger).debug(
 						"Starting validation of path {} with value {}",
 						pathValidationContext.path,
-						pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)//NOSONAR
+						pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)
 					);
 				}
 				check.action.accept(pathValidationContext);
@@ -511,7 +512,7 @@ public class Validator {
 			((org.slf4j.Logger)logger).debug(
 				"No custom check executed for path {} with value {}",
 				pathValidationContext.path,
-				pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)//NOSONAR
+				pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)
 			);
 		}
 	}
@@ -552,7 +553,7 @@ public class Validator {
 			((org.slf4j.Logger)logger).debug(
 				"Skipping validation of path {} with value {}",
 				pathValidationContext.path,
-				pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)//NOSONAR
+				pathValidationContext.validationContext.inputHandler.valueToString(pathValidationContext.rawValue)
 			);
 		}
 	}

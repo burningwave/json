@@ -147,7 +147,7 @@ public interface Validation {
 		final Collection<IndexedObjectCheck<?>> indexedObjectChecks;
 		final Collection<LeafCheck<?, ?>> leafChecks;
 
-		Context(//NOSONAR
+		Context(
 			Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder,
 			Validation.Config<?> validationConfig,
 			ObjectHandler jsonObjectWrapper,
