@@ -294,6 +294,10 @@ public class Path {
 			return findValue(Path.Segment.parent);
 		}
 
+		public ObjectHandler getParentObjectHandler() {
+			return findObjectHandler(Path.Segment.parent);
+		}
+
 		public <V> V findValue(String... pathSegmentsOrRelativePathSegments) {
 			return getRootHandler().newValueFinder().findForPathEquals(
 				resolvePath(pathSegmentsOrRelativePathSegments)
