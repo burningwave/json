@@ -31,7 +31,7 @@
 
 	<groupId>org.burningwave</groupId>
 	<artifactId>json</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.1.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>Burningwave JSON</name>
