@@ -106,16 +106,16 @@ public class ObjectHandler  {
 	ObjectHandler (
 		ObjectMapper objectMapper,
 		String path,
-		ObjectHandler masterobjectHandler,
+		ObjectHandler masterObjectHandler,
 		Object convertedValue,
 		Object originalValue
 	) {
 		this.objectMapper = objectMapper;
 		this.path = path;
-		if (masterobjectHandler == null && Path.Segment.root.equals(path)) {
+		if (masterObjectHandler == null && Path.Segment.root.equals(path)) {
 			this.rootHandler = this;
 		} else {
-			this.rootHandler = masterobjectHandler;
+			this.rootHandler = masterObjectHandler;
 		}
 		this.rawValue = convertedValue;
 		if (originalValue != null) {
