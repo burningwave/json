@@ -77,7 +77,7 @@ For this purpose is necessary the use of  **ObjectHandler**. Let's assume the fo
     }
 }
 ```
-Now to load values and retrieve paths you can do the following (the full example is available in the [ObjectHandlerTest.class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)):
+Now to load values and retrieve paths you can do the following (the full example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)):
 
 ```java
 //Loading the JSON object
