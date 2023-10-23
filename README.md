@@ -8,7 +8,7 @@
 
 And now we will see:
 * [including Burningwave JSON in your project](#Including-Burningwave-JSON-in-your-project)
-* [find values ​​and paths in a JSON object)(#Find-values-and-paths-in-a-JSON-object)
+* [find values ​​and paths in a JSON object](#Find-values-and-paths-in-a-JSON-object)
 * [**how to ask for assistance**](#Ask-for-assistance)
 
 <br/>
@@ -75,7 +75,7 @@ For this purpose is necessary the use of  **ObjectHandler**. Let's assume the fo
     }
 }
 ```
-Now to load values and retrieve paths you can do the following (the full example is available in the [ObjectHandlerTest.class]()):
+Now to load values and retrieve paths you can do the following (the full example is available in the [ObjectHandlerTest.class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)):
 
 ```java
 			//Loading the JSON object
