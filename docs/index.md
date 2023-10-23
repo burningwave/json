@@ -34,7 +34,7 @@ requires org.burningwave.json;
 
 <br/>
 
-# <a name="Finding-values-and-paths-in-a-JSON-object"></a>Find values ​​and paths in a JSON object
+# <a name="Finding-values-and-paths-in-a-JSON-object"></a>Finding values ​​and paths in a JSON object
 For this purpose is necessary the use of  **ObjectHandler**. Let's assume the following JSON document:
 
 ```json
