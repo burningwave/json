@@ -20,7 +20,7 @@ To include Burningwave JSON library in your projects simply use with **Apache Ma
 <dependency>
     <groupId>org.burningwave</groupId>
     <artifactId>json</artifactId>
-    <version>0.6.3</version>
+    <version>0.7.0</version>
 </dependency>
 ```
 
@@ -32,7 +32,9 @@ To use Burningwave JSON as a Java module you need to add the following to your `
 requires org.burningwave.json;
 ```
 
-### Find values ​​and paths in a JSON object
+<br/>
+
+# <a name="Find-values-and-paths-in-a-JSON-object"></a>Find values ​​and paths in a JSON object
 For this purpose is necessary the use of  **ObjectHandler**. Let's assume the following JSON document:
 
 ```json
