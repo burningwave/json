@@ -4,7 +4,7 @@
 <img src="https://raw.githubusercontent.com/burningwave/burningwave.github.io/main/logo.png" alt="logo.png" height="180px" align="right"/>
 </a>
 
-**Burningwave JSON** is an advanced, free and open source Java JSON handler.
+**Burningwave JSON** is an advanced, free and open source JSON handler for Java.
 
 And now we will see:
 * [including Burningwave JSON in your project](#Including-Burningwave-JSON-in-your-project)
