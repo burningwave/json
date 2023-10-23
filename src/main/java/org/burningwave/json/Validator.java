@@ -57,7 +57,7 @@ import com.fasterxml.jackson.module.jsonSchema.types.StringSchema;
 
 @SuppressWarnings({"unchecked"})
 public class Validator {
-	public static final Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>>  DEFAULT_EXCEPTION_BUILDER;
+	public static final Function<Path.Validation.Context<?, ?>, Function<String, Function<String, Function<Object[], Throwable>>>> DEFAULT_EXCEPTION_BUILDER;
 
 
 	private static final String DEFAULT_LEAF_CHECKS_ID;
@@ -69,10 +69,10 @@ public class Validator {
 		DEFAULT_LEAF_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultLeafChecks");
 		DEFAULT_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultObjectChecks");
 		DEFAULT_INDEXED_OBJECT_CHECKS_ID = Strings.INSTANCE.toStringWithRandomUUIDSuffix("defaultIndexedObjectChecks");
-		DEFAULT_EXCEPTION_BUILDER = pathValidationContext -> checkType -> messageArguments -> {
+		DEFAULT_EXCEPTION_BUILDER = pathValidationContext -> checkType -> message -> messageArguments -> {
 			Strings.INSTANCE.compile(checkType, messageArguments);
 			return new Validation.Exception(
-				pathValidationContext.getPath(), Strings.INSTANCE.compile(checkType, messageArguments)
+				pathValidationContext.getPath(), checkType, Strings.INSTANCE.compile(message, messageArguments)
 			);
 		};
 		logger = SLF4J.INSTANCE.tryToInitLogger(Validator.class);
@@ -82,7 +82,7 @@ public class Validator {
 
 	protected final ObjectMapper objectMapper;
 	protected final SchemaHolder schemaHolder;
-	protected Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
+	protected Function<Path.Validation.Context<?, ?>, Function<String, Function<String, Function<Object[], Throwable>>>> exceptionBuilder;
 	protected final Map<String, Collection<ObjectCheck>> objectChecks;
 	protected final Map<String, Collection<IndexedObjectCheck<?>>> indexedObjectChecks;
 	protected final Map<String, Collection<LeafCheck<?, ?>>> leafChecks;
@@ -108,7 +108,7 @@ public class Validator {
 
 	public Validator(
 		SchemaHolder schemaHolder,
-		Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder
+		Function<Path.Validation.Context<?, ?>, Function<String, Function<String, Function<Object[], Throwable>>>> exceptionBuilder
 	) {
 		this(
 			schemaHolder.objectMapper,
@@ -120,7 +120,7 @@ public class Validator {
 	public Validator(
 		ObjectMapper objectMapper,
 		SchemaHolder schemaHolder,
-		Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder
+		Function<Path.Validation.Context<?, ?>, Function<String, Function<String, Function<Object[], Throwable>>>> exceptionBuilder
 	) {
 		this.objectMapper = objectMapper;
 		this.schemaHolder = schemaHolder;
@@ -142,7 +142,7 @@ public class Validator {
 		);
 	}
 
-	public void setExceptionBuilder(Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder) {
+	public void setExceptionBuilder(Function<Path.Validation.Context<?, ?>, Function<String, Function<String, Function<Object[], Throwable>>>> exceptionBuilder) {
 		this.exceptionBuilder = exceptionBuilder;
 	}
 

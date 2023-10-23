@@ -54,9 +54,9 @@ public class Path {
 
 		protected Segment() {}
 
-		public static final String root = "";											
-		public static final String parent = "../";										
-		public static final String current = "./";										
+		public static final String root = "";
+		public static final String parent = "../";
+		public static final String current = "./";
 
 		public static final String toIndexed(String pathSegment, int... indexes) {
 			StringBuilder indexedNameBuilder = new StringBuilder(pathSegment);
@@ -196,7 +196,7 @@ public class Path {
 	public interface Validation {
 		public static class Context<S extends JsonSchema, T> {
 
-			final org.burningwave.json.Validation.Context validationContext; 
+			final org.burningwave.json.Validation.Context validationContext;
 			final String path;
 			final String name;
 			final List<Integer> indexes;
@@ -218,7 +218,7 @@ public class Path {
 				if (org.burningwave.json.Validation.Context.MOCK_SCHEMA_LABEL.equals(schemaDescription) &&
 					!validationContext.checkValue(jsonSchema, value)
 				) {
-					rejectValue(Check.Error.UNEXPECTED_TYPE);
+					rejectValue(Check.Error.UNEXPECTED_TYPE, "Unexpected type");
 				}
 				this.rawValue = (T)value;
 			}
@@ -233,16 +233,18 @@ public class Path {
 
 			public void rejectValue(
 				Check.Error checkType,
+				String message,
 				Object... messageArgs
 			) {
-				validationContext.rejectValue(this, checkType.name(), messageArgs);
+				validationContext.rejectValue(this, checkType.name(), message, messageArgs);
 			}
 
 			public void rejectValue(
 				String checkType,
+				String message,
 				Object... messageArgs
 			) {
-				validationContext.rejectValue(this, checkType, messageArgs);
+				validationContext.rejectValue(this, checkType, message, messageArgs);
 			}
 
 			public static <S extends JsonSchema, T> java.util.function.Predicate<Path.Validation.Context<S, T>> predicateFor(

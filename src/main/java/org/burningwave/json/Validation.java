@@ -138,7 +138,7 @@ public interface Validation {
 			MOCK_SCHEMA_LABEL = Strings.INSTANCE.toStringWithRandomUUIDSuffix("schemaMock");
 		}
 
-		final Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder;
+		final Function<Path.Validation.Context<?, ?>, Function<String, Function<String, Function<Object[], Throwable>>>> exceptionBuilder;
 		final Validation.Config<?> validationConfig;
 		final ObjectHandler inputHandler;
 		final Collection<Throwable> exceptions;
@@ -148,7 +148,7 @@ public interface Validation {
 		final Collection<LeafCheck<?, ?>> leafChecks;
 
 		Context(
-			Function<Path.Validation.Context<?, ?>, Function<String, Function<Object[], Throwable>>> exceptionBuilder,
+				Function<Path.Validation.Context<?, ?>, Function<String, Function<String, Function<Object[], Throwable>>>> exceptionBuilder,
 			Validation.Config<?> validationConfig,
 			ObjectHandler jsonObjectWrapper,
 			Collection<ObjectCheck> objectChecks,
@@ -178,6 +178,7 @@ public interface Validation {
 		void rejectValue(
 			Path.Validation.Context<?, ?> pathValidationContext,
 			String checkType,
+			String message,
 			Object... messageArgs
 		) {
 			exceptionAdder.apply(
@@ -186,6 +187,7 @@ public interface Validation {
 				exceptionBuilder
 				.apply(pathValidationContext)
 				.apply(checkType)
+				.apply(message)
 				.apply(messageArgs)
 			);
 		}
@@ -227,14 +229,20 @@ public interface Validation {
 		private static final long serialVersionUID = 391707186751457489L;
 
 		protected final String path;
+		protected final String checkType;
 
-		public Exception(String path, String message) {
-			super(message);
+		public Exception(String path, String checkType, String message) {
+			super(path + ": " + message);
 			this.path = path;
+			this.checkType = checkType;
 		}
 
 		public String getPath() {
 			return path;
+		}
+
+		public String getCheckType() {
+			return this.checkType;
 		}
 
 	}

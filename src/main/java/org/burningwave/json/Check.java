@@ -66,7 +66,7 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 	public default O checkMandatory() {
 		return execute(pathValidationContext -> {
 			if (pathValidationContext.isFieldRequired() && pathValidationContext.getRawValue() == null) {
-				pathValidationContext.rejectValue(Check.Error.IS_NULL);
+				pathValidationContext.rejectValue(Check.Error.IS_NULL, "is null");
 			}
 		});
 	}
