@@ -9,7 +9,7 @@
 And now we will see:
 * [including Burningwave JSON in your project](#Including-Burningwave-JSON-in-your-project)
 * [finding values ​​and paths in a JSON object](#Finding-values-and-paths-in-a-JSON-object)
-* [Validating values](#Validating-values)
+* [validating values](#Validating-values)
 * [**how to ask for assistance**](#Ask-for-assistance)
 
 <br/>
