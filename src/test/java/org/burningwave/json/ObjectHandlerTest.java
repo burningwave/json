@@ -20,8 +20,8 @@ public class ObjectHandlerTest extends BaseTest {
 
 			ObjectHandler.ValueFinder valueFinder = objectHandler.newValueFinder();
 			Sport sport = valueFinder.findFirstForPathEndsWith("sport");
-			String option2OfSportQuiz = valueFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
-			Q1 quizOne = valueFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+			String option2OfSportQuestion = valueFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+			Q1 questionOne = valueFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 
 			ObjectHandler.Finder objectHandlerFinder = objectHandler.newFinder();
 			ObjectHandler sportOH = objectHandlerFinder.findFirstForPathEndsWith("sport");
@@ -29,14 +29,14 @@ public class ObjectHandlerTest extends BaseTest {
 			String sportPath = sportOH.getPath();
 			//Retrieving the value of the sport object
 			sport = sportOH.getValue();
-			ObjectHandler option2OfSportQuizOH = objectHandlerFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
-			String option2OfSportQuizOHPath = option2OfSportQuizOH.getPath();
-			option2OfSportQuiz = option2OfSportQuizOH.getValue();
-			ObjectHandler quizOneOH = objectHandlerFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
-			String quizOnePath = quizOneOH.getPath();
-			quizOne = quizOneOH.getValue();
+			ObjectHandler option2OfSportQuestionOH = objectHandlerFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+			String option2OfSportQuestionOHPath = option2OfSportQuestionOH.getPath();
+			option2OfSportQuestion = option2OfSportQuestionOH.getValue();
+			ObjectHandler questionOneOH = objectHandlerFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+			String questionOnePath = questionOneOH.getPath();
+			questionOne = questionOneOH.getValue();
 
-			return quizOne;
+			return questionOne;
 		});
 	}
 

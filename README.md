@@ -38,44 +38,30 @@ requires org.burningwave.json;
 For this purpose is necessary the use of  **ObjectHandler**. Let's assume the following JSON document:
 
 ```json
-{
-    "quiz": {
-        "sport": {
-            "q1": {
-                "question": "Which one is correct team name in NBA?",
-                "options": [
-                    "New York Bulls",
-                    "Los Angeles Kings",
-                    "Golden State Warriros",
-                    "Huston Rocket"
-                ],
-                "answer": "Huston Rocket"
-            }
-        },
-        "maths": {
-            "q1": {
-                "question": "5 + 7 = ?",
-                "options": [
-                    "10",
-                    "11",
-                    "12",
-                    "13"
-                ],
-                "answer": "12"
-            },
-            "q2": {
-                "question": "12 - 8 = ?",
-                "options": [
-                    "1",
-                    "2",
-                    "3",
-                    "4"
-                ],
-                "answer": "4"
-            }
-        }
-    }
-}
+//Loading the JSON object
+Root jsonObject = facade.objectMapper().readValue(
+	ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
+	Root.class
+);
+ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
+
+ObjectHandler.ValueFinder valueFinder = objectHandler.newValueFinder();
+Sport sport = valueFinder.findFirstForPathEndsWith("sport");
+String option2OfSportQuestion = valueFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+Q1 questionOne = valueFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+
+ObjectHandler.Finder objectHandlerFinder = objectHandler.newFinder();
+ObjectHandler sportOH = objectHandlerFinder.findFirstForPathEndsWith("sport");
+//Retrieving the path of the sport object ("quiz.sport")
+String sportPath = sportOH.getPath();
+//Retrieving the value of the sport object
+sport = sportOH.getValue();
+ObjectHandler option2OfSportQuestionOH = objectHandlerFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+String option2OfSportQuestionOHPath = option2OfSportQuestionOH.getPath();
+option2OfSportQuestion = option2OfSportQuestionOH.getValue();
+ObjectHandler questionOneOH = objectHandlerFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+String questionOnePath = questionOneOH.getPath();
+questionOne = questionOneOH.getValue();
 ```
 Now to load values and retrieve paths you can do the following (the full example is available in the [ObjectHandlerTest.class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)):
 
