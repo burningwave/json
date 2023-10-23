@@ -8,7 +8,8 @@ import org.junit.runner.RunWith;
 @RunWith(JUnitPlatform.class)
 //@SelectPackages("org.burningwave.json")
 @SelectClasses({
-
+	ObjectHandlerTest.class,
+	ValidatorTest.class
 })
 //@ExcludeTags("Heavy")
 public class AllTestsReducedSuite {

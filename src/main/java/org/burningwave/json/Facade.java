@@ -56,6 +56,10 @@ public class Facade {
 		return new Facade(objectMapper);
 	}
 
+	public ObjectMapper objectMapper() {
+		return this.objectMapper;
+	}
+
 	public ObjectHandler newObjectHandler(Object jsonObject) {
 		return ObjectHandler.create(objectMapper, jsonObject);
 	}
