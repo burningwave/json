@@ -9,6 +9,7 @@
 And now we will see:
 * [including Burningwave JSON in your project](#Including-Burningwave-JSON-in-your-project)
 * [finding values ​​and paths in a JSON object](#Finding-values-and-paths-in-a-JSON-object)
+* [Validating values](#Validating-values)
 * [**how to ask for assistance**](#Ask-for-assistance)
 
 <br/>
@@ -105,6 +106,11 @@ ObjectHandler questionOneOH = objectHandlerFinder.findForPathEquals(Path.of("qui
 String questionOnePath = questionOneOH.getPath();
 questionOne = questionOneOH.getValue();
 ```
+
+<br />
+
+# <a name="Validating-values"></a>Validating values
+... Documentation in preparation
 
 <br />
 
