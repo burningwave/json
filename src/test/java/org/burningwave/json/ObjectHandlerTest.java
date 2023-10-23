@@ -1,11 +1,11 @@
 package org.burningwave.json;
 
-import org.burningwave.json.bean.Q1;
+import org.burningwave.json.bean.Question;
 import org.burningwave.json.bean.Root;
 import org.burningwave.json.bean.Sport;
 import org.junit.jupiter.api.Test;
 
-public class ObjectHandlerTest extends BaseTest {
+class ObjectHandlerTest extends BaseTest {
 	static final Facade facade = Facade.create();
 
 	@Test
@@ -21,7 +21,7 @@ public class ObjectHandlerTest extends BaseTest {
 			ObjectHandler.ValueFinder valueFinder = objectHandler.newValueFinder();
 			Sport sport = valueFinder.findFirstForPathEndsWith("sport");
 			String option2OfSportQuestion = valueFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
-			Q1 questionOne = valueFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+			Question questionOne = valueFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 
 			ObjectHandler.Finder objectHandlerFinder = objectHandler.newFinder();
 			ObjectHandler sportOH = objectHandlerFinder.findFirstForPathEndsWith("sport");

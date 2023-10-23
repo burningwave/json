@@ -5,24 +5,24 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Q2 {
+public class Question {
 	String answer;
 	List<String> options;
-	String question;
+	String text;
 
-	@JsonProperty("answer")
+	@JsonProperty(value = "answer", required = true)
 	public String getAnswer() {
 		return this.answer;
 	}
 
-	@JsonProperty("options")
+	@JsonProperty(value = "options", required = true)
 	public List<String> getOptions() {
 		return this.options;
 	}
 
-	@JsonProperty("question")
+	@JsonProperty(value = "text", required = true)
 	public String getQuestion() {
-		return this.question;
+		return this.text;
 	}
 
 	public void setAnswer(String answer) {
@@ -34,6 +34,6 @@ public class Q2 {
 	}
 
 	public void setQuestion(String question) {
-		this.question = question;
+		this.text = question;
 	}
 }
