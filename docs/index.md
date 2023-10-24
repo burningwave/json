@@ -49,6 +49,9 @@ To use Burningwave JSON as a Java module you need to add the following to your `
 requires org.burningwave.json;
 ```
 
+### Enabling the JVM Driver
+The Burningwave JSON library uses the [Burningwave Reflection](https://burningwave.github.io/reflection/) library that, by default, doesn't use the the [Burningwave JVM Driver](https://burningwave.github.io/jvm-driver/): if you want enable it [see the relevant section on the Burningwave Reflection project](https://github.com/burningwave/reflection#enabling-the-jvm-driver).
+
 <br/>
 
 # <a name="Finding-values-and-paths-in-a-JSON-document"></a>Finding values ​​and paths in a JSON document
