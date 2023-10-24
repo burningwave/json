@@ -31,7 +31,7 @@
 
 	<groupId>org.burningwave</groupId>
 	<artifactId>json</artifactId>
-	<version>0.9.0</version>
+	<version>0.9.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>Burningwave JSON</name>
@@ -132,7 +132,7 @@
 		<connection>scm:git:${repository.url}</connection>
 		<developerConnection>scm:git:${repository.url}</developerConnection>
 		<url>https://github.com/burningwave/json</url>
-		<tag>json-0.9.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 	
 	<dependencyManagement>
