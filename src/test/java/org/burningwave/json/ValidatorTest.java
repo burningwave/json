@@ -13,10 +13,13 @@ class ValidatorTest extends BaseTest {
 	void validateTestOne() {
 		testThrow(() -> {
 			facade.validator().registerCheck(
-				//Check
+				//Checking whether a value in any field marked as required (e.g.: @JsonProperty(value = "answer", required = true)) is null
 				Check.forAll().checkMandatory(),
-				Check.forAllStringValues().execute(validationContext -> {
-
+				//Checking whether a string value in any field is empty
+				Check.forAllStringValues().execute(pathValidationContext -> {
+					if (pathValidationContext.getValue() != null && pathValidationContext.getValue().trim().equals("")) {
+						pathValidationContext.rejectValue("IS_EMPTY", "is empty");
+					}
 				})
 			);
 
@@ -25,7 +28,6 @@ class ValidatorTest extends BaseTest {
 				ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz-to-be-validated.json"),
 				Root.class
 			);
-			ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
 			Collection<Throwable> exceptions = facade.validator().validate(Validation.Config.forJsonObject(jsonObject).withCompleteValidation());
 			for (Throwable exc : exceptions) {
 				System.err.println(exc.getMessage());
