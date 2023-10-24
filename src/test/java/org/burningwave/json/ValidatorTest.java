@@ -28,7 +28,12 @@ class ValidatorTest extends BaseTest {
 				ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz-to-be-validated.json"),
 				Root.class
 			);
-			Collection<Throwable> exceptions = facade.validator().validate(Validation.Config.forJsonObject(jsonObject).withCompleteValidation());
+			Collection<Throwable> exceptions = facade.validator().validate(
+				Validation.Config.forJsonObject(jsonObject)
+				//By calling this method the validation will be performed on the entire document,
+				//otherwise the validation will stop at the first exception thrown
+				.withCompleteValidation()
+			);
 			for (Throwable exc : exceptions) {
 				System.err.println(exc.getMessage());
 			};
