@@ -36,7 +36,8 @@ requires org.burningwave.json;
 <br/>
 
 # <a name="Finding-values-and-paths-in-a-JSON-object"></a>Finding values ​​and paths in a JSON object
-For this purpose is necessary the use of  **ObjectHandler**. Let's assume the following JSON document:
+The following example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)).
+Let's assume the following JSON document:
 
 ```json
 {
@@ -78,8 +79,45 @@ For this purpose is necessary the use of  **ObjectHandler**. Let's assume the fo
     }
 }
 ```
+First of all, to find values in the JSON we need lo load the JSON through the **ObjectHandler**. The ObjectHandler wraps the JSON and contains the path and the value of the node you are visiting within the JSON. To instantiate an ObjectHandler follow this code:
+
+```java
+Facade facade = Facade.create();
+//Loading the JSON object 
+Root jsonObject = facade.objectMapper().readValue(
+    ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
+    Root.class
+);
+ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
+```
+
+After loaded the JSON we need to instantiate a **Finder**. There are 3 kinds of Finder:
+* the [**ObjectHandler.Finder**](#The-ObjectHandler.Finder) that which allows you to search for elements within the JSON ​​returning ObjectHandlers
+* the **ObjectHandler.ValueFinder** that which allows you to search for elements within the JSON ​​directly returning the values
+* the **ObjectHandler.ValueFinderAndConverter** that which allows you to search for elements within the JSON ​​and convert the values found
+
 Now to load values and retrieve paths you can do the following (the full example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)):
 
+## The ObjectHandler.Finder
+To obtain this kind of finder use this code:
+```java
+ObjectHandler.Finder finder = objectHandler.newFinder();
+```
+Once you obtained the finder you can use it to search items inside the JSON:
+```java
+//Searching for the first occurrence by path suffix
+ObjectHandler sportOH = finder.findFirstForPathEndsWith("sport");
+//Retrieving the path of the sport object ("quiz.sport")
+String sportPath = sportOH.getPath();
+//Retrieving the value of the sport object
+sport = sportOH.getValue();
+ObjectHandler option2OfSportQuestionOH = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+String option2OfSportQuestionOHPath = option2OfSportQuestionOH.getPath();
+option2OfSportQuestion = option2OfSportQuestionOH.getValue();
+ObjectHandler questionOneOH = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+String questionOnePath = questionOneOH.getPath();
+questionOne = questionOneOH.getValue();
+```
 ```java
 //Loading the JSON object
 Root jsonObject = facade.objectMapper().readValue(
