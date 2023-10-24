@@ -36,7 +36,7 @@ requires org.burningwave.json;
 <br/>
 
 # <a name="Finding-values-and-paths-in-a-JSON-object"></a>Finding values ​​and paths in a JSON object
-The following example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)).
+The following example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java).
 Let's assume the following JSON document:
 
 ```json
@@ -92,7 +92,7 @@ ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
 ```
 
 After loaded the JSON we need to instantiate a **Finder**. There are 3 kinds of Finder:
-* the [**ObjectHandler.Finder**](#The-ObjectHandler.Finder) that which allows you to search for elements within the JSON ​​returning ObjectHandlers
+* the [**ObjectHandler.Finder**](#The-ObjectHandlerFinder) that which allows you to search for elements within the JSON ​​returning ObjectHandlers
 * the **ObjectHandler.ValueFinder** that which allows you to search for elements within the JSON ​​directly returning the values
 * the **ObjectHandler.ValueFinderAndConverter** that which allows you to search for elements within the JSON ​​and convert the values found
 
@@ -110,39 +110,28 @@ ObjectHandler sportOH = finder.findFirstForPathEndsWith("sport");
 //Retrieving the path of the sport object ("quiz.sport")
 String sportPath = sportOH.getPath();
 //Retrieving the value of the sport object
-sport = sportOH.getValue();
+Sport sport = sportOH.getValue();
 ObjectHandler option2OfSportQuestionOH = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
 String option2OfSportQuestionOHPath = option2OfSportQuestionOH.getPath();
-option2OfSportQuestion = option2OfSportQuestionOH.getValue();
+String option2OfSportQuestion = option2OfSportQuestionOH.getValue();
 ObjectHandler questionOneOH = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 String questionOnePath = questionOneOH.getPath();
-questionOne = questionOneOH.getValue();
+Question questionOne = questionOneOH.getValue();
 ```
+
+## The ObjectHandler.ValueFinder
+To obtain this kind of finder use this code:
 ```java
-//Loading the JSON object
-Root jsonObject = facade.objectMapper().readValue(
-    ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
-    Root.class
-);
-ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
+ObjectHandler.Finder finder = objectHandler.newValueFinder();
+```
+Once you obtained the finder you can use it to search items inside the JSON:
 
-ObjectHandler.ValueFinder valueFinder = objectHandler.newValueFinder();
+```java
+ObjectHandler.ValueFinder finder = objectHandler.newValueFinder();
+//Searching for the first occurrence by path suffix
 Sport sport = valueFinder.findFirstForPathEndsWith("sport");
-String option2OfSportQuestion = valueFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
-Q1 questionOne = valueFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
-
-ObjectHandler.Finder objectHandlerFinder = objectHandler.newFinder();
-ObjectHandler sportOH = objectHandlerFinder.findFirstForPathEndsWith("sport");
-//Retrieving the path of the sport object ("quiz.sport")
-String sportPath = sportOH.getPath();
-//Retrieving the value of the sport object
-sport = sportOH.getValue();
-ObjectHandler option2OfSportQuestionOH = objectHandlerFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
-String option2OfSportQuestionOHPath = option2OfSportQuestionOH.getPath();
-option2OfSportQuestion = option2OfSportQuestionOH.getValue();
-ObjectHandler questionOneOH = objectHandlerFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
-String questionOnePath = questionOneOH.getPath();
-questionOne = questionOneOH.getValue();
+String option2OfSportQuestion = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+Question questionOne = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 ```
 
 <br />
