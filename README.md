@@ -8,7 +8,7 @@
 
 And now we will see:
 * [including Burningwave JSON in your project](#Including-Burningwave-JSON-in-your-project)
-* [finding values ​​and paths in a JSON object](#Finding-values-and-paths-in-a-JSON-object)
+* [finding values ​​and paths in a JSON](#Finding-values-and-paths-in-a-JSON)
 * [validating values](#Validating-values)
 * [**how to ask for assistance**](#Ask-for-assistance)
 
@@ -35,7 +35,7 @@ requires org.burningwave.json;
 
 <br/>
 
-# <a name="Finding-values-and-paths-in-a-JSON-object"></a>Finding values ​​and paths in a JSON object
+# <a name="Finding-values-and-paths-in-a-JSON"></a>Finding values ​​and paths in a JSON
 The following example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java).
 Let's assume the following JSON document:
 
