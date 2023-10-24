@@ -7,9 +7,9 @@
 [![Maven Central with version prefix filter](https://img.shields.io/maven-central/v/org.burningwave/json/0)](https://maven-badges.herokuapp.com/maven-central/org.burningwave/json/)
 [![GitHub](https://img.shields.io/github/license/burningwave/json)](https://github.com/burningwave/json/blob/master/LICENSE)
 
-[![Platforms](https://img.shields.io/badge/platforms-Windows%2C%20Mac%20OS%2C%20Linux-orange)](https://github.com/burningwave/json/actions/runs/6622372465)
+[![Platforms](https://img.shields.io/badge/platforms-Windows%2C%20Mac%20OS%2C%20Linux-orange)](https://github.com/burningwave/json/actions/runs/6623996370)
 
-[![Supported JVM](https://img.shields.io/badge/supported%20JVM-8%2C%209+%20(21)-blueviolet)](https://github.com/burningwave/json/actions/runs/6622372465)
+[![Supported JVM](https://img.shields.io/badge/supported%20JVM-8%2C%209+-blueviolet)](https://github.com/burningwave/json/actions/runs/6623996370)
 
 [![Coveralls github branch](https://img.shields.io/coveralls/github/burningwave/json/master)](https://coveralls.io/github/burningwave/json?branch=master)
 [![GitHub open issues](https://img.shields.io/github/issues/burningwave/core)](https://github.com/burningwave/json/issues)
@@ -20,6 +20,7 @@
 [![HitCount](https://www.burningwave.org/generators/generate-visited-pages-badge.php)](https://www.burningwave.org#bw-counters)
 
 **Burningwave JSON** is an advanced, free and open source JSON handler for Java.
+**The search and validation possibilities offered by this library are practically infinite** and this page will illustrate an overview of the components exposed by the library and some examples of basic operation: for any further help visit [the relevant section](#Ask-for-assistance).
 
 And now we will see:
 * [including Burningwave JSON in your project](#Including-Burningwave-JSON-in-your-project)
@@ -36,7 +37,7 @@ To include Burningwave JSON library in your projects simply use with **Apache Ma
 <dependency>
     <groupId>org.burningwave</groupId>
     <artifactId>json</artifactId>
-    <version>0.9.0</version>
+    <version>0.10.0</version>
 </dependency>
 ```
 
@@ -166,7 +167,35 @@ Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sp
 <br />
 
 # <a name="Validating-values"></a>Validating values of a JSON
-To validate a JSON we need to obtain the **Validator**
+The following example is available in the [ValidatorTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ValidatorTest.java).
+To validate a JSON we need to obtain the **Validator** and then register the checks:
+```java
+facade.validator().registerCheck(
+	//Checking whether a value in any field marked as required (e.g.: @JsonProperty(value = "answer", required = true)) is null
+	Check.forAll().checkMandatory(),
+	//Checking whether a string value in any field is empty
+	Check.forAllStringValues().execute(pathValidationContext -> {
+		if (pathValidationContext.getValue() != null && pathValidationContext.getValue().trim().equals("")) {
+			pathValidationContext.rejectValue("IS_EMPTY", "is empty");
+		}
+	})	
+);
+```
+Once registered the checks, to execute the validation we must call the `validate` method:
+```java
+//Loading the JSON object
+Root jsonObject = facade.objectMapper().readValue(
+	ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
+	Root.class
+);
+Collection<Throwable> exceptions =
+	facade.validator().validate(
+		Validation.Config.forJsonObject(jsonObject)
+		//By calling this method the validation will be performed on the entire document,
+		//otherwise the validation will stop at the first exception thrown
+		.withCompleteValidation()
+	);
+```
 
 <br />
 
