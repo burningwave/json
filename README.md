@@ -4,6 +4,21 @@
 <img src="https://raw.githubusercontent.com/burningwave/burningwave.github.io/main/logo.png" alt="logo.png" height="180px" align="right"/>
 </a>
 
+[![Maven Central with version prefix filter](https://img.shields.io/maven-central/v/org.burningwave/json/0)](https://maven-badges.herokuapp.com/maven-central/org.burningwave/json/)
+[![GitHub](https://img.shields.io/github/license/burningwave/json)](https://github.com/burningwave/json/blob/master/LICENSE)
+
+[![Platforms](https://img.shields.io/badge/platforms-Windows%2C%20Mac%20OS%2C%20Linux-orange)](https://github.com/burningwave/json/actions/runs/6622372465)
+
+[![Supported JVM](https://img.shields.io/badge/supported%20JVM-8%2C%209+%20(21)-blueviolet)](https://github.com/burningwave/json/actions/runs/6622372465)
+
+[![Coveralls github branch](https://img.shields.io/coveralls/github/burningwave/json/master)](https://coveralls.io/github/burningwave/json?branch=master)
+[![GitHub open issues](https://img.shields.io/github/issues/burningwave/core)](https://github.com/burningwave/json/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/burningwave/json)](https://github.com/burningwave/json/issues?q=is%3Aissue+is%3Aclosed)
+
+[![Artifact downloads](https://www.burningwave.org/generators/generate-burningwave-artifact-downloads-badge.php?artifactId=json)](https://www.burningwave.org/artifact-downloads/?show-overall-trend-chart=false&artifactId=json)
+[![Repository dependents](https://badgen.net/github/dependents-repo/burningwave/json)](https://github.com/burningwave/json/network/dependents)
+[![HitCount](https://www.burningwave.org/generators/generate-visited-pages-badge.php)](https://www.burningwave.org#bw-counters)
+
 **Burningwave JSON** is an advanced, free and open source JSON handler for Java.
 
 And now we will see:
@@ -151,7 +166,7 @@ Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sp
 <br />
 
 # <a name="Validating-values"></a>Validating values of a JSON
-... Documentation in preparation
+To validate a JSON we
 
 <br />
 
