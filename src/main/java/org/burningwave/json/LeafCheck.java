@@ -48,7 +48,7 @@ public class LeafCheck<S extends JsonSchema, T> extends Check.Abst<S, T, LeafChe
 		public OfString checkNotEmpty() {
 			return (OfString)execute(pathValidationContext -> {
 				if (pathValidationContext.getRawValue().isEmpty()) {
-					pathValidationContext.rejectValue(Check.Error.IS_EMPTY, "is empty");
+					pathValidationContext.rejectValue("IS_EMPTY", "is empty");
 				}
 			});
 		}

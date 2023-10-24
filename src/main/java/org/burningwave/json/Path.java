@@ -218,7 +218,7 @@ public class Path {
 				if (org.burningwave.json.Validation.Context.MOCK_SCHEMA_LABEL.equals(schemaDescription) &&
 					!validationContext.checkValue(jsonSchema, value)
 				) {
-					rejectValue(Check.Error.UNEXPECTED_TYPE, "Unexpected type");
+					rejectValue("UNEXPECTED_TYPE", "unexpected type");
 				}
 				this.rawValue = (T)value;
 			}
@@ -229,14 +229,6 @@ public class Path {
 
 			public ObjectHandler getObjectHandler() {
 				return getRootHandler().newFinder().findForPathEquals(this.path);
-			}
-
-			public void rejectValue(
-				Check.Error checkType,
-				String message,
-				Object... messageArgs
-			) {
-				validationContext.rejectValue(this, checkType.name(), message, messageArgs);
 			}
 
 			public void rejectValue(

@@ -37,8 +37,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
-import org.burningwave.Strings;
-
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.types.ArraySchema;
 import com.fasterxml.jackson.module.jsonSchema.types.BooleanSchema;
@@ -52,21 +50,10 @@ public interface Check<S extends JsonSchema, T, O extends Check<S, T, O>> {
 
 	public O execute(Consumer<Path.Validation.Context<S, T>> action);
 
-	public enum Error {
-		UNEXPECTED_TYPE,
-		IS_NULL,
-		IS_EMPTY,
-		NOT_IN_RANGE;
-
-		public String key() {
-			return Strings.INSTANCE.underscoredToCamelCase(name());
-		}
-	}
-
 	public default O checkMandatory() {
 		return execute(pathValidationContext -> {
 			if (pathValidationContext.isFieldRequired() && pathValidationContext.getRawValue() == null) {
-				pathValidationContext.rejectValue(Check.Error.IS_NULL, "is null");
+				pathValidationContext.rejectValue("IS_NULL", "is null");
 			}
 		});
 	}
