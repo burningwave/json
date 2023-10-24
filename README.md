@@ -138,7 +138,7 @@ Question questionOne = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 
 <br/>
 
-### The ObjectHandler.ValueFinderAndConverter
+## The ObjectHandler.ValueFinderAndConverter
 To obtain this kind of finder use this code:
 ```java
 ObjectHandler.Finder finderAndConverter = objectHandler.newValueFinderAndConverter();
