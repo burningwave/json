@@ -96,6 +96,8 @@ After loaded the JSON we need to instantiate a **Finder**. There are 3 kinds of 
 * the [**ObjectHandler.ValueFinder**](#The-ObjectHandlerValueFinder) that which allows you to search for elements within the JSON ​​directly returning the values
 * the [**ObjectHandler.ValueFinderAndConverter**](#The-ObjectHandlerValueFinderAndConverter) that which allows you to search for elements within the JSON ​​and convert the values found
 
+<br/>
+
 ## The ObjectHandler.Finder
 To obtain this kind of finder use this code:
 ```java
@@ -117,6 +119,8 @@ String questionOnePath = questionOneOH.getPath();
 Question questionOne = questionOneOH.getValue();
 ```
 
+<br/>
+
 ## The ObjectHandler.ValueFinder
 To obtain this kind of finder use this code:
 ```java
@@ -131,6 +135,8 @@ Sport sport = finder.findFirstForPathEndsWith("sport");
 String option2OfSportQuestion = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
 Question questionOne = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 ```
+
+<br/>
 
 ### The ObjectHandler.ValueFinderAndConverter
 To obtain this kind of finder use this code:
