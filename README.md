@@ -79,7 +79,7 @@ Let's assume the following JSON document:
     }
 }
 ```
-First of all, to find values in the JSON we need lo load the JSON through the **ObjectHandler**. The ObjectHandler wraps the JSON and contains the path and the value of the node you are visiting within the JSON. To instantiate an ObjectHandler follow this code:
+First of all, to find values in the JSON we need to load the JSON via **ObjectHandler**. The ObjectHandler wraps the JSON and contains the path and the value of the node you are visiting within the JSON. To instantiate an ObjectHandler follow this code:
 
 ```java
 Facade facade = Facade.create();
@@ -150,7 +150,7 @@ Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sp
 ```
 <br />
 
-# <a name="Validating-values"></a>Validating values
+# <a name="Validating-values"></a>Validating values of a JSON
 ... Documentation in preparation
 
 <br />
