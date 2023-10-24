@@ -24,8 +24,8 @@
 
 And now we will see:
 * [including Burningwave JSON in your project](#Including-Burningwave-JSON-in-your-project)
-* [finding values ​​and paths in a JSON](#Finding-values-and-paths-in-a-JSON)
-* [validating values](#Validating-values)
+* [finding values ​​and paths in a JSON document](#Finding-values-and-paths-in-a-JSON-document)
+* [validating values of a JSON document](#Validating-values-of-a-JSON-document)
 * [**how to ask for assistance**](#Ask-for-assistance)
 
 <br/>
@@ -51,7 +51,7 @@ requires org.burningwave.json;
 
 <br/>
 
-# <a name="Finding-values-and-paths-in-a-JSON"></a>Finding values ​​and paths in a JSON
+# <a name="Finding-values-and-paths-in-a-JSON-document"></a>Finding values ​​and paths in a JSON document
 The following example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java).
 Let's assume the following JSON document:
 
@@ -166,7 +166,7 @@ Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sp
 ```
 <br />
 
-# <a name="Validating-values"></a>Validating values of a JSON
+# <a name="Validating-values-of-a-JSON-document"></a>Validating values of a JSON document
 The following example is available in the [ValidatorTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ValidatorTest.java).
 To validate a JSON we need to obtain the **Validator** and then register the checks:
 ```java
