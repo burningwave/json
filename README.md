@@ -7,9 +7,9 @@
 [![Maven Central with version prefix filter](https://img.shields.io/maven-central/v/org.burningwave/json/0)](https://maven-badges.herokuapp.com/maven-central/org.burningwave/json/)
 [![GitHub](https://img.shields.io/github/license/burningwave/json)](https://github.com/burningwave/json/blob/master/LICENSE)
 
-[![Platforms](https://img.shields.io/badge/platforms-Windows%2C%20Mac%20OS%2C%20Linux-orange)](https://github.com/burningwave/json/actions/runs/6623996370)
+[![Platforms](https://img.shields.io/badge/platforms-Windows%2C%20Mac%20OS%2C%20Linux-orange)](https://github.com/burningwave/json/actions/runs/6624895092)
 
-[![Supported JVM](https://img.shields.io/badge/supported%20JVM-8%2C%209+-blueviolet)](https://github.com/burningwave/json/actions/runs/6623996370)
+[![Supported JVM](https://img.shields.io/badge/supported%20JVM-8%2C%209+-blueviolet)](https://github.com/burningwave/json/actions/runs/6624895092)
 
 [![Coveralls github branch](https://img.shields.io/coveralls/github/burningwave/json/master)](https://coveralls.io/github/burningwave/json?branch=master)
 [![GitHub open issues](https://img.shields.io/github/issues/burningwave/core)](https://github.com/burningwave/json/issues)
@@ -37,7 +37,7 @@ To include Burningwave JSON library in your projects simply use with **Apache Ma
 <dependency>
     <groupId>org.burningwave</groupId>
     <artifactId>json</artifactId>
-    <version>0.10.0</version>
+    <version>0.11.0</version>
 </dependency>
 ```
 
