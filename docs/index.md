@@ -50,7 +50,7 @@ requires org.burningwave.json;
 ```
 
 ### Enabling the JVM Driver
-The Burningwave JSON library uses the [Burningwave Reflection](https://burningwave.github.io/reflection/) library that, by default, doesn't use the the [Burningwave JVM Driver](https://burningwave.github.io/jvm-driver/): if you want to enable it [consult the relevant section on the Burningwave Reflection project](https://burningwave.github.io/reflection#enabling-the-jvm-driver).
+Burningwave JSON uses the [Burningwave Reflection](https://burningwave.github.io/reflection/) library that, by default, doesn't use the the [Burningwave JVM Driver](https://burningwave.github.io/jvm-driver/): if you want to enable it [consult the relevant section on the Burningwave Reflection project](https://burningwave.github.io/reflection#enabling-the-jvm-driver).
 
 <br/>
 
