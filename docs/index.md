@@ -21,7 +21,7 @@ To include Burningwave JSON library in your projects simply use with **Apache Ma
 <dependency>
     <groupId>org.burningwave</groupId>
     <artifactId>json</artifactId>
-    <version>0.8.0</version>
+    <version>0.9.0</version>
 </dependency>
 ```
 
@@ -137,8 +137,8 @@ To obtain this kind of finder use this code:
 ```java
 ObjectHandler.Finder finderAndConverter = objectHandler.newValueFinderAndConverter();
 ```
+Once you obtained the finder you can use it to search items inside the JSON and **convert them**:
 ```java
-ObjectHandler.ValueFinder finderAndConverter = objectHandler.newValueFinderAndConverter(Map.class);
 //Searching for the first occurrence by path suffix and convert it
 Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sport");
 ```
