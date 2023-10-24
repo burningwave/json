@@ -93,10 +93,8 @@ ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
 
 After loaded the JSON we need to instantiate a **Finder**. There are 3 kinds of Finder:
 * the [**ObjectHandler.Finder**](#The-ObjectHandlerFinder) that which allows you to search for elements within the JSON ​​returning ObjectHandlers
-* the **ObjectHandler.ValueFinder** that which allows you to search for elements within the JSON ​​directly returning the values
-* the **ObjectHandler.ValueFinderAndConverter** that which allows you to search for elements within the JSON ​​and convert the values found
-
-Now to load values and retrieve paths you can do the following (the full example is available in the [ObjectHandlerTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ObjectHandlerTest.java)):
+* the [**ObjectHandler.ValueFinder**](#The-ObjectHandlerValueFinder) that which allows you to search for elements within the JSON ​​directly returning the values
+* the [**ObjectHandler.ValueFinderAndConverter**](#The-ObjectHandlerValueFinderAndConverter) that which allows you to search for elements within the JSON ​​and convert the values found
 
 ## The ObjectHandler.Finder
 To obtain this kind of finder use this code:
@@ -129,11 +127,21 @@ Once you obtained the finder you can use it to search items inside the JSON:
 ```java
 ObjectHandler.ValueFinder finder = objectHandler.newValueFinder();
 //Searching for the first occurrence by path suffix
-Sport sport = valueFinder.findFirstForPathEndsWith("sport");
+Sport sport = finder.findFirstForPathEndsWith("sport");
 String option2OfSportQuestion = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
 Question questionOne = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 ```
 
+### The ObjectHandler.ValueFinderAndConverter
+To obtain this kind of finder use this code:
+```java
+ObjectHandler.Finder finderAndConverter = objectHandler.newValueFinderAndConverter();
+```
+```java
+ObjectHandler.ValueFinder finderAndConverter = objectHandler.newValueFinderAndConverter(Map.class);
+//Searching for the first occurrence by path suffix and convert it
+Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sport");
+```
 <br />
 
 # <a name="Validating-values"></a>Validating values
