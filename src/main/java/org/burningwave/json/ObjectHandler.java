@@ -167,8 +167,8 @@ public class ObjectHandler  {
 		return new ValueFinder(this);
 	}
 
-	public <V> ValueFinderAndConverter<V> newValueFinderAndConverter(Class<V> outputClass) {
-		return new ValueFinderAndConverter<>(this, outputClass);
+	public ValueFinderAndConverter newValueFinderAndConverter(Class<?> outputClass) {
+		return new ValueFinderAndConverter(this, outputClass);
 	}
 
 	protected <O> O findFirst(
@@ -525,21 +525,21 @@ public class ObjectHandler  {
 
 	}
 
-	public static class ValueFinderAndConverter<V> extends AbstFinder {
+	public static class ValueFinderAndConverter extends AbstFinder {
 
-		private Class<V> outputClass;
+		private Class<?> outputClass;
 
-		ValueFinderAndConverter(ObjectHandler objectHandler, Class<V> outputClass) {
+		ValueFinderAndConverter(ObjectHandler objectHandler, Class<?> outputClass) {
 			super(objectHandler);
 			this.outputClass = outputClass;
 		}
 
 		@Override
-		V convert(ObjectHandler found) {
-			return found.convert(outputClass);
+		<V> V convert(ObjectHandler found) {
+			return (V)found.convert(outputClass);
 		}
 
-		public ValueFinderAndConverter<V> changeOutputClass(Class<V> outputClass) {
+		public ValueFinderAndConverter changeOutputClass(Class<?> outputClass) {
 			this.outputClass = outputClass;
 			return this;
 		}
