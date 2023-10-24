@@ -95,7 +95,7 @@ Let's assume the following JSON document:
     }
 }
 ```
-First of all, to find values in the JSON we need to load the JSON via **ObjectHandler**. The ObjectHandler wraps the JSON and contains the path and the value of the node you are visiting within the JSON. To instantiate an ObjectHandler follow this code:
+First of all, to find values in a JSON document we need to load the JSON via **ObjectHandler**. The ObjectHandler wraps the JSON document and contains the path and the value of the node you are visiting within the JSON. To instantiate an ObjectHandler follow this code:
 
 ```java
 Facade facade = Facade.create();
@@ -119,7 +119,7 @@ To obtain this kind of finder use this code:
 ```java
 ObjectHandler.Finder finder = objectHandler.newFinder();
 ```
-Once you obtained the finder you can use it to search items inside the JSON:
+Once you obtained the finder you can use it to search items inside the JSON document:
 ```java
 //Searching for the first occurrence by path suffix
 ObjectHandler sportOH = finder.findFirstForPathEndsWith("sport");
@@ -142,7 +142,7 @@ To obtain this kind of finder use this code:
 ```java
 ObjectHandler.Finder finder = objectHandler.newValueFinder();
 ```
-Once you obtained the finder you can use it to search items inside the JSON:
+Once you obtained the finder you can use it to search items inside the JSON document:
 
 ```java
 ObjectHandler.ValueFinder finder = objectHandler.newValueFinder();
@@ -159,7 +159,7 @@ To obtain this kind of finder use this code:
 ```java
 ObjectHandler.Finder finderAndConverter = objectHandler.newValueFinderAndConverter();
 ```
-Once you obtained the finder you can use it to search items inside the JSON and **convert them**:
+Once you obtained the finder you can use it to search items inside the JSON document and **convert them**:
 ```java
 //Searching for the first occurrence by path suffix and convert it
 Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sport");
@@ -168,7 +168,7 @@ Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sp
 
 # <a name="Validating-values-of-a-JSON-document"></a>Validating values of a JSON document
 The following example is available in the [ValidatorTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ValidatorTest.java).
-To validate a JSON we need to obtain the **Validator** and then register the checks:
+To validate a JSON document we need to obtain the **Validator** and then register the checks:
 ```java
 facade.validator().registerCheck(
 	//Checking whether a value in any field marked as required (e.g.: @JsonProperty(value = "answer", required = true)) is null
