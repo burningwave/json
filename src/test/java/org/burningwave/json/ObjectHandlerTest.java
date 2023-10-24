@@ -1,5 +1,7 @@
 package org.burningwave.json;
 
+import java.util.Map;
+
 import org.burningwave.json.bean.Question;
 import org.burningwave.json.bean.Root;
 import org.burningwave.json.bean.Sport;
@@ -18,25 +20,58 @@ class ObjectHandlerTest extends BaseTest {
 			);
 			ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
 
-			ObjectHandler.ValueFinder valueFinder = objectHandler.newValueFinder();
-			Sport sport = valueFinder.findFirstForPathEndsWith("sport");
-			String option2OfSportQuestion = valueFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
-			Question questionOne = valueFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
-
-			ObjectHandler.Finder objectHandlerFinder = objectHandler.newFinder();
-			ObjectHandler sportOH = objectHandlerFinder.findFirstForPathEndsWith("sport");
+			ObjectHandler.Finder finder = objectHandler.newFinder();
+			ObjectHandler sportOH = finder.findFirstForPathEndsWith("sport");
 			//Retrieving the path of the sport object ("quiz.sport")
 			String sportPath = sportOH.getPath();
 			//Retrieving the value of the sport object
-			sport = sportOH.getValue();
-			ObjectHandler option2OfSportQuestionOH = objectHandlerFinder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+			Sport sport = sportOH.getValue();
+			ObjectHandler option2OfSportQuestionOH = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
 			String option2OfSportQuestionOHPath = option2OfSportQuestionOH.getPath();
-			option2OfSportQuestion = option2OfSportQuestionOH.getValue();
-			ObjectHandler questionOneOH = objectHandlerFinder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+			String option2OfSportQuestion = option2OfSportQuestionOH.getValue();
+			ObjectHandler questionOneOH = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 			String questionOnePath = questionOneOH.getPath();
-			questionOne = questionOneOH.getValue();
+			Question questionOne = questionOneOH.getValue();
+
+			ObjectHandler.ValueFinderAndConverter finderAndConverter = objectHandler.newValueFinderAndConverter(Map.class);
+			Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sport");
 
 			return questionOne;
+		});
+	}
+
+	@Test
+	void findFirstValueTestOne() {
+		testNotNull(() -> {
+			//Loading the JSON object
+			Root jsonObject = facade.objectMapper().readValue(
+				ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
+				Root.class
+			);
+			ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
+
+			ObjectHandler.ValueFinder finder = objectHandler.newValueFinder();
+			Sport sport = finder.findFirstForPathEndsWith("sport");
+			String option2OfSportQuestion = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
+			Question questionOne = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
+			return questionOne;
+		});
+	}
+
+	@Test
+	void findFirstValueAndConvertItTestOne() {
+		testNotNull(() -> {
+			//Loading the JSON object
+			Root jsonObject = facade.objectMapper().readValue(
+				ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
+				Root.class
+			);
+			ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
+
+			ObjectHandler.ValueFinderAndConverter finderAndConverter = objectHandler.newValueFinderAndConverter(Map.class);
+			Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sport");
+
+			return sportAsMap;
 		});
 	}
 
