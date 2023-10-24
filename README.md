@@ -95,7 +95,7 @@ Let's assume the following JSON document:
     }
 }
 ```
-First of all, to find values in a JSON document we need to load the JSON via **ObjectHandler**. The ObjectHandler wraps the JSON document and contains the path and the value of the node you are visiting within the JSON. To instantiate an ObjectHandler follow this code:
+First of all, to find values in a JSON document we need to load it via **ObjectHandler**. The ObjectHandler wraps the JSON document and contains the path and the value of the node you are visiting within the JSON. To instantiate an ObjectHandler follow this code:
 
 ```java
 Facade facade = Facade.create();
