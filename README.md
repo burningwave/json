@@ -174,7 +174,7 @@ Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sp
 
 # <a name="Validating-values-of-a-JSON-document"></a>Validating values of a JSON document
 The following example is available in the [ValidatorTest class](https://github.com/burningwave/json/blob/main/src/test/java/org/burningwave/json/ValidatorTest.java).
-To validate a JSON document we need to obtain the **Validator** and then register the checks:
+To validate a JSON document you need to obtain the **Validator** and then register the checks:
 ```java
 facade.validator().registerCheck(
 	//Checking whether a value in any field marked as required (e.g.: @JsonProperty(value = "answer", required = true)) is null
@@ -187,7 +187,7 @@ facade.validator().registerCheck(
 	})	
 );
 ```
-Once registered the checks, to execute the validation we must call the `validate` method:
+Once registered the checks, to execute the validation you must call the `validate` method:
 ```java
 Collection<Throwable> exceptions =
 	facade.validator().validate(
