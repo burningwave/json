@@ -31,10 +31,6 @@ class ObjectHandlerTest extends BaseTest {
 			ObjectHandler questionOneOH = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 			String questionOnePath = questionOneOH.getPath();
 			Question questionOne = questionOneOH.getValue();
-
-			ObjectHandler.ValueFinderAndConverter finderAndConverter = objectHandler.newValueFinderAndConverter(Map.class);
-			Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sport");
-
 			return questionOne;
 		});
 	}
