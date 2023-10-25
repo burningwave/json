@@ -189,11 +189,6 @@ facade.validator().registerCheck(
 ```
 Once registered the checks, to execute the validation we must call the `validate` method:
 ```java
-//Loading the JSON object
-ObjectHandler objectHandler = facade.newObjectHandler(
-	ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
-	Root.class
-);
 Collection<Throwable> exceptions =
 	facade.validator().validate(
 		Validation.Config.forJsonObject(objectHandler.getValue())
