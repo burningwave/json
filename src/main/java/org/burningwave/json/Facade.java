@@ -28,6 +28,13 @@
  */
 package org.burningwave.json;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+
+import org.burningwave.Executor;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Facade {
@@ -57,11 +64,35 @@ public class Facade {
 	}
 
 	public ObjectMapper objectMapper() {
-		return this.objectMapper;
+		return objectMapper;
 	}
 
 	public ObjectHandler newObjectHandler(Object jsonObject) {
 		return ObjectHandler.create(objectMapper, jsonObject);
+	}
+
+	public <T> ObjectHandler newObjectHandler(byte[] src, Class<T> type) {
+		return Executor.get(() -> ObjectHandler.create(objectMapper, objectMapper.readValue(src, type)));
+	}
+
+	public <T> ObjectHandler newObjectHandler(File src, Class<T> type) {
+		return Executor.get(() -> ObjectHandler.create(objectMapper, objectMapper.readValue(src, type)));
+	}
+
+	public <T> ObjectHandler newObjectHandler(InputStream src, Class<T> type) {
+		return Executor.get(() -> ObjectHandler.create(objectMapper, objectMapper.readValue(src, type)));
+	}
+
+	public <T> ObjectHandler newObjectHandler(Reader src, Class<T> type) {
+		return Executor.get(() -> ObjectHandler.create(objectMapper, objectMapper.readValue(src, type)));
+	}
+
+	public <T> ObjectHandler newObjectHandler(String src, Class<T> type) {
+		return Executor.get(() -> ObjectHandler.create(objectMapper, objectMapper.readValue(src, type)));
+	}
+
+	public <T> ObjectHandler newObjectHandler(URL src, Class<T> type) {
+		return Executor.get(() -> ObjectHandler.create(objectMapper, objectMapper.readValue(src, type)));
 	}
 
 	public Validator validator() {

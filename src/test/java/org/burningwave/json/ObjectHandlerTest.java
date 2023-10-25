@@ -14,11 +14,10 @@ class ObjectHandlerTest extends BaseTest {
 	void findFirstTestOne() {
 		testNotNull(() -> {
 			//Loading the JSON object
-			Root jsonObject = facade.objectMapper().readValue(
+			ObjectHandler objectHandler = facade.newObjectHandler(
 				ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
 				Root.class
 			);
-			ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
 
 			ObjectHandler.Finder finder = objectHandler.newFinder();
 			ObjectHandler sportOH = finder.findFirstForPathEndsWith("sport");
@@ -44,11 +43,10 @@ class ObjectHandlerTest extends BaseTest {
 	void findFirstValueTestOne() {
 		testNotNull(() -> {
 			//Loading the JSON object
-			Root jsonObject = facade.objectMapper().readValue(
+			ObjectHandler objectHandler = facade.newObjectHandler(
 				ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
 				Root.class
 			);
-			ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
 
 			ObjectHandler.ValueFinder finder = objectHandler.newValueFinder();
 			Sport sport = finder.findFirstForPathEndsWith("sport");
@@ -62,11 +60,10 @@ class ObjectHandlerTest extends BaseTest {
 	void findFirstValueAndConvertItTestOne() {
 		testNotNull(() -> {
 			//Loading the JSON object
-			Root jsonObject = facade.objectMapper().readValue(
+			ObjectHandler objectHandler = facade.newObjectHandler(
 				ObjectHandlerTest.class.getClassLoader().getResourceAsStream("quiz.json"),
 				Root.class
 			);
-			ObjectHandler objectHandler = facade.newObjectHandler(jsonObject);
 
 			ObjectHandler.ValueFinderAndConverter finderAndConverter = objectHandler.newValueFinderAndConverter(Map.class);
 			Map<String, Object> sportAsMap = finderAndConverter.findFirstForPathEndsWith("sport");
