@@ -125,13 +125,17 @@ Once you obtained the finder you can use it to search items inside the JSON docu
 ```java
 //Searching for the first occurrence by path suffix
 ObjectHandler sportOH = finder.findFirstForPathEndsWith("sport");
+
 //Retrieving the path of the sport object ("quiz.sport")
 String sportPath = sportOH.getPath();
+
 //Retrieving the value of the sport object
 Sport sport = sportOH.getValue();
+
 ObjectHandler option2OfSportQuestionOH = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
 String option2OfSportQuestionOHPath = option2OfSportQuestionOH.getPath();
 String option2OfSportQuestion = option2OfSportQuestionOH.getValue();
+
 ObjectHandler questionOneOH = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 String questionOnePath = questionOneOH.getPath();
 Question questionOne = questionOneOH.getValue();
@@ -147,9 +151,9 @@ ObjectHandler.Finder finder = objectHandler.newValueFinder();
 Once you obtained the finder you can use it to search items inside the JSON document:
 
 ```java
-ObjectHandler.ValueFinder finder = objectHandler.newValueFinder();
 //Searching for the first occurrence by path suffix
 Sport sport = finder.findFirstForPathEndsWith("sport");
+
 String option2OfSportQuestion = finder.findFirstForPathEndsWith(Path.of("sport", "q1", "options[1]"));
 Question questionOne = finder.findForPathEquals(Path.of("quiz", "sport", "q1"));
 ```
