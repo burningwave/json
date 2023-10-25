@@ -30,8 +30,6 @@ And now we will see:
 
 <br/>
 
-<script src="https://gist.github.com/Roberto-Gentili/679ca2c198c5410d809f630b6675234e.js"></script>
-
 # <a name="Including-Burningwave-JSON-in-your-project"></a>Including Burningwave JSON in your project 
 To include Burningwave JSON library in your projects simply use with **Apache Maven**:
 
