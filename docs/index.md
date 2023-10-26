@@ -110,9 +110,9 @@ ObjectHandler objectHandler = facade.newObjectHandler(
 ```
 
 After loaded the JSON we need to instantiate a **Finder**. There are 3 kinds of Finder:
-* the [**ObjectHandler.Finder**](#The-ObjectHandlerFinder) that which allows you to search for elements within the JSON ​​returning ObjectHandlers
-* the [**ObjectHandler.ValueFinder**](#The-ObjectHandlerValueFinder) that which allows you to search for elements within the JSON ​​directly returning the values
-* the [**ObjectHandler.ValueFinderAndConverter**](#The-ObjectHandlerValueFinderAndConverter) that which allows you to search for elements within the JSON ​​and convert the values found
+* the [**ObjectHandler.Finder**](#the-objecthandlerfinder) that which allows you to search for elements within the JSON ​​returning ObjectHandlers
+* the [**ObjectHandler.ValueFinder**](#the-objecthandlervaluefinder) that which allows you to search for elements within the JSON ​​directly returning the values
+* the [**ObjectHandler.ValueFinderAndConverter**](#the-objecthandlervaluefinderandconverter) that which allows you to search for elements within the JSON ​​and convert the values found
 
 <br/>
 
