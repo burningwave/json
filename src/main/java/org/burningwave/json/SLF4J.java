@@ -1,5 +1,3 @@
-package org.burningwave.json;
-
 /*
  * This file is part of Burningwave JSON.
  *
@@ -28,6 +26,8 @@ package org.burningwave.json;
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package org.burningwave.json;
+
 class SLF4J {
 
 	public static final SLF4J INSTANCE;
