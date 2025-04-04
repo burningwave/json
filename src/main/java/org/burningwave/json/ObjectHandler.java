@@ -40,6 +40,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,6 +55,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("unchecked")
 public class ObjectHandler  {
+
+	private final static Pattern INDEXES_SEARCHER_FOR_INDEXED_FIELD;
+
 	private static Function<ObjectHandler, Object> valueRetriever;
 	static {
 		try {
@@ -66,6 +71,7 @@ public class ObjectHandler  {
 				valueRetriever = buildAlwaysNullVaueIfNotValorizedRetriever();
 			}
 		}
+		INDEXES_SEARCHER_FOR_INDEXED_FIELD = Pattern.compile("\\[(.*?)\\]");
 	}
 
 	static Function<ObjectHandler, Object> buildValueRetriever(
@@ -78,7 +84,15 @@ public class ObjectHandler  {
 					break;
 				}
 				if (value instanceof Map) {
-					pathSegment = "[" + pathSegment + "]";
+					Matcher matcher = INDEXES_SEARCHER_FOR_INDEXED_FIELD.matcher(pathSegment);
+					String index = "";
+					if (matcher.find()) {
+						index = matcher.group(0);
+					}
+					if (!index.isEmpty()) {
+						pathSegment = pathSegment.replace(index, "");
+					}
+					pathSegment = "[" + pathSegment + "]" + index;
 				}
 				try {
 					value = fieldAccessor.get(value, pathSegment);
