@@ -91,8 +91,8 @@
 
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
-		<jackson.version>2.0.0</jackson.version>
-		<json.version>20131018</json.version>
+		<jackson.version>2.18.3</jackson.version>
+		<json.version>20250107</json.version>
 		<junit-jupiter.version>5.10.0</junit-jupiter.version>
 		<junit.version>1.10.0</junit.version>
 		<burningwave-reflection.version>4.4.2</burningwave-reflection.version>
@@ -148,55 +148,55 @@
 			<dependency>
 			 	<groupId>com.fasterxml.jackson.core</groupId>
 			 	<artifactId>jackson-core</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 		 	
 		 	<dependency>
 			 	<groupId>com.fasterxml.jackson.core</groupId>
 			 	<artifactId>jackson-annotations</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 		 	
 		 	<dependency>
 			 	<groupId>com.fasterxml.jackson.core</groupId>
 			 	<artifactId>jackson-databind</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 	
 		 	<dependency>
 			 	<groupId>com.fasterxml.jackson.dataformat</groupId>
 			 	<artifactId>jackson-dataformat-yaml</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 		 	
 		 	<dependency>
 			 	<groupId>com.fasterxml.jackson.datatype</groupId>
 			 	<artifactId>jackson-datatype-jdk8</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 		 	
 		 	<dependency>
 			 	<groupId>com.fasterxml.jackson.datatype</groupId>
 			 	<artifactId>jackson-datatype-jsr310</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 		 	
 		 	<dependency>
 			 	<groupId>com.fasterxml.jackson.module</groupId>
 			 	<artifactId>jackson-module-jsonSchema</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 		 	
 		 	<dependency>
 			 	<groupId>com.fasterxml.jackson.module</groupId>
 			 	<artifactId>jackson-module-parameter-names</artifactId>
-			 	<version>[${jackson.version},)</version>
+			 	<version>${jackson.version}</version>
 		 	</dependency>
 		 	
 			<dependency>
 			    <groupId>org.json</groupId>
 			    <artifactId>json</artifactId>
-			    <version>[${json.version},)</version>
+			    <version>${json.version}</version>
 			</dependency>
 	
 			<dependency>
